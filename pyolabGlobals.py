@@ -20,7 +20,7 @@ class G(object):
     # raw data retrieval and analysis - don't mess with these
     dataList = []        # data received from the serial port
     dataPointer = 0      # pointer to the next raw byte to be analyzed
-    startNext = 0        # used by findRecords() - 
+    nextData = 0        # used by findRecords() - 
     
     # dictionary that stores received records, keyed by types outlined below
     recDict   = {}  
