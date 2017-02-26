@@ -189,7 +189,7 @@ def analyzeData():
 #
 def findRecords():
 
-    i = G.startNext         # where we will start looking
+    i = G.nextData         # where we will start looking
     iLast = len(G.dataList) # where we will stop looking
 
     # work through the data looking for valid records and saving these to G.recDict
@@ -208,8 +208,8 @@ def findRecords():
                             # if SOP, BC, and EOP are all consistent then save the record
                             rec = G.dataList[i+2:i+3+ndata]
                             G.recDict[recType].append(rec)
-                            G.startNext = i + 4 + ndata # where the next record starts
-                            i = G.startNext - 1         # since we are adding 1 after the break
+                            G.nextData = i + 4 + ndata # where the next record starts
+                            i = G.nextData - 1         # since we are adding 1 after the break
                             break
                         else:
                             # shouldn't ever get here but check just in case
