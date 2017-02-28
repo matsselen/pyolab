@@ -34,28 +34,35 @@ def analUserEnd():
 def analUserLoop():
     U.analUserCalls += 1
 
-    sensor = 1 #accelerometer
     # use the latest packet configuration and find where the sensor data is
-    findLastPacketConfig(sensor)
+    findLastPacketConfig()
+
+    # if we know the packet configuration...
+    #if U.lastPacketConfig != []:
+        # then lets see if our sensor is in there
 
 
-
-
+#print '{0}\r'.format(x),
 
 #======================================
 #
-def findLastPacketConfig(s):
+def findLastPacketConfig():
 
     if len(G.recDict[G.recType_getPacketConfig]) > 0:
         pc = G.recDict[G.recType_getPacketConfig][-1][2:] # the latest packet config
     else:
         pc = []                                             # or [] if none found
 
+    sc = []
     if pc != U.lastPacketConfig:
-        print "New packet configuration " + str(pc)
+        
         U.lastPacketConfig = pc
         G.configIsSet = True
+        for i in range(pc[0]):
+            sc.append(pc[i*2+1:i*2+3])
+            
+        print "New packet configuration " + str(pc)
+        print "New sensor configuration " + str(sc)
 
 
-#print '{0}\r'.format(x),
 
