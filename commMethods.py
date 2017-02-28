@@ -5,7 +5,7 @@ import serial.tools.list_ports
 from threading import Thread
 
 # local stuff
-from pyolabGlobals import *
+from pyolabGlobals import G
 
 
 """

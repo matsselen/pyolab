@@ -3,9 +3,9 @@
 import time
 
 # local stuff
-from pyolabGlobals import *
-from userMethods import *
+from pyolabGlobals import G
 from commMethods import *
+from userMethods import *
 from iolabInfo import *
 
 """
@@ -46,6 +46,7 @@ def startItUp():
 
         return True
     else:
+        print "Can't open the comm port - is there a dongle plugged in?"
         return False
 
 
@@ -199,6 +200,7 @@ def findRecords():
             # find record type
             for recType in G.recTypeList:
                 if G.dataList[i+1] == recType:
+
                     # find byte count (BC)
                     # see if we can find the end of packet (EOP) byte = 0xa
                     ndata = G.dataList[i+2]
@@ -207,7 +209,14 @@ def findRecords():
                         if G.dataList[i+3+ndata] == 0xa:
                             # if SOP, BC, and EOP are all consistent then save the record
                             rec = G.dataList[i+2:i+3+ndata]
+                            # add record to the appropriate list
                             G.recDict[recType].append(rec)
+                            # if the thing we just received was a NACK it means a command was
+                            # not properly serviced, so we should tell someone
+                            if recType == G.recType_NACK:
+                                print " NACK: " + str(rec)
+
+                            # figure out where we are starting next
                             G.nextData = i + 4 + ndata # where the next record starts
                             i = G.nextData - 1         # since we are adding 1 after the break
                             break
@@ -220,4 +229,5 @@ def findRecords():
 
         else:
             i += 1
+
 

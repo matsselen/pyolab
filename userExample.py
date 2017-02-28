@@ -3,7 +3,7 @@ import os
 import sys
 
 # local stuff
-from pyolabGlobals import *
+from pyolabGlobals import G
 from commMethods import *
 from dataMethods import *
 
@@ -28,11 +28,9 @@ if not startItUp():
 # Loop to get user commands.
 while G.running:
     print "\nEnter command:"
+    print "   =n  to set remote configuration to n"
     print "   a   to run acquisition"
     print "   s   to stop acquisition"
-    print "   p   to get remote data packet structure"
-    print "   c   to get remote sensor configuration"
-    print "  =nn  to set remote configuration to nn"
     print "   x   to exit"
 
     command = raw_input()
@@ -45,23 +43,26 @@ while G.running:
     else:
 
         if command.count('a') > 0:
-            print "startData"
-            startData(G.serialPort)
+            if G.configIsSet:
+                print "Calling startData()"
+                startData(G.serialPort)
+            else:
+                print "You need to set a configuration before acquiring data"
 
         elif command.count('s') > 0:
-            print "stopData"
+            print "Calling stopData()"
             stopData(G.serialPort)
-
-        elif command.count('p') > 0:
-            print "getPacketConfig"
-            getPacketConfig(G.serialPort)
-
-        elif command.count('c') > 0:
-            print "getFixedConfig"
-            getFixedConfig(G.serialPort)
 
         elif command.count('=') > 0:
             n=int(command[1:])
-            print "setFixedConfig " +str(n)
+            print "Calling setFixedConfig("+str(n)+"), getFixedConfig(), and getPacketConfig()" 
             print configName(n)
+            # set the fixed configuration 
             setFixedConfig(G.serialPort,n)
+            # ask the system to tell us about its configuration 
+            getFixedConfig(G.serialPort)
+            # ask the system to tell us about its data packet configuration
+            getPacketConfig(G.serialPort)
+
+            G.configIsSet = True
+
