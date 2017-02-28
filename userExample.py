@@ -1,6 +1,6 @@
 # system stuff
 import os
-import sys
+import time
 
 # local stuff
 from pyolabGlobals import G
@@ -27,12 +27,17 @@ if not startItUp():
 
 # Loop to get user commands.
 while G.running:
+    # take a little nap to allow stuff from the last command to finish
+    time.sleep(.2) 
+
+    # ask the user for input
     print "\nEnter command:"
     print "   =n  to set remote configuration to n"
     print "   a   to run acquisition"
     print "   s   to stop acquisition"
-    print "   x   to exit"
+    print "   x   to exit\n"
 
+    # wait for user input
     command = raw_input()
 
     # this block is executed when its time to quit
@@ -55,14 +60,17 @@ while G.running:
 
         elif command.count('=') > 0:
             n=int(command[1:])
-            print "Calling setFixedConfig("+str(n)+"), getFixedConfig(), and getPacketConfig()" 
+            print "Calling setFixedConfig("+str(n)+")" 
             print configName(n)
             # set the fixed configuration 
             setFixedConfig(G.serialPort,n)
+
             # ask the system to tell us about its configuration 
+            print "Calling getFixedConfig()" 
             getFixedConfig(G.serialPort)
+
             # ask the system to tell us about its data packet configuration
+            print "Calling getPacketConfig()" 
             getPacketConfig(G.serialPort)
 
-            G.configIsSet = True
 

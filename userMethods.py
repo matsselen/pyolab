@@ -26,7 +26,6 @@ def analUserStart():
 def analUserEnd():
     print "in analUserEnd()"
     print "analUserLoop() was called " + str(U.analUserCalls) + " times"
-    findLastPacketConfig()
 
 
 #======================================================================
@@ -35,14 +34,28 @@ def analUserEnd():
 def analUserLoop():
     U.analUserCalls += 1
 
-    # keep looking 
+    sensor = 1 #accelerometer
+    # use the latest packet configuration and find where the sensor data is
+    findLastPacketConfig(sensor)
+
+
+
 
 
 #======================================
 #
-def findLastPacketConfig():
+def findLastPacketConfig(s):
 
-    if G.recType_getPacketConfig in G.recDict:
-        print G.recDict[G.recType_getPacketConfig]
+    if len(G.recDict[G.recType_getPacketConfig]) > 0:
+        pc = G.recDict[G.recType_getPacketConfig][-1][2:] # the latest packet config
     else:
-        print "no packet info found"
+        pc = []                                             # or [] if none found
+
+    if pc != U.lastPacketConfig:
+        print "New packet configuration " + str(pc)
+        U.lastPacketConfig = pc
+        G.configIsSet = True
+
+
+#print '{0}\r'.format(x),
+

@@ -8,9 +8,10 @@ class G(object):
     # control varialbles
     sleepTimeRead = 0.05 # time to sleep each read loop
     sleepTimeAnal = 0.11 # time to sleep each read loop
+    sleepCommand  = 0.10 # time to sleep after a command is sent
     dumpData = True      # if True the base analysis code dumps data to a file
     running  = True      # used to signal treads to quit
-    configIsSet = False  # have we set a fixed configuration ? 
+    configIsSet = False  # have we set a fixed configuration yet ? 
 
     # ports & files & threads
     serialPort = None    # pointer to the virtual com port

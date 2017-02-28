@@ -10,7 +10,10 @@ but its something Mats understands.
 
 class U(object):
 
-    analUserCalls = 0   # just 
-    nextRecord = 0      # 
+    analUserCalls = 0           # how many times analUserLoop() has been called
+    nextRecord = 0              # used to keep track of where we are
+    lastPacketConfig = []       # the last packet config record received
+
+
     
 
