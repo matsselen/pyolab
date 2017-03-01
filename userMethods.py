@@ -35,34 +35,77 @@ def analUserLoop():
     U.analUserCalls += 1
 
     # use the latest packet configuration and find where the sensor data is
-    findLastPacketConfig()
+    findLastConfig()
 
-    # if we know the packet configuration...
-    #if U.lastPacketConfig != []:
-        # then lets see if our sensor is in there
+    nRec = len(G.recDict[G.recType_dataFromRemote])
+    if nRec > U.nextRecord:
+        for n in range(U.nextRecord,nRec):
+            r = G.recDict[G.recType_dataFromRemote][n]
+            nsens = r[4] # number of sensors in this data record
+            nsaved = 0   # the number of sensors we have saved data from
+            i = 5        
+            while nsaved < nsens:
+                thisSensor = r[i] & 0xF             # ID of the current sensor
+                sensorOverflow = r[i] > thisSensor  # is overflow bit set?
+                if sensorOverflow: print "sensor "+str(thisSensor)+" overflow"
+                # make sure this is on the list of expected sensors for this config
+                if thisSensor in U.lastSensorConfig:
+                    nValidBytes = r[i+1]
+                    sensorBytes = r[i+2:i+2+nValidBytes]
+                    print "saved "+str(nValidBytes)+" bytes from sensor "+str(thisSensor)
+                    nsaved += 1
+                else:
+                    print "Wrong sensor: " +str(thisSensor)
+
+                i += (2 + U.lastSensorConfig[thisSensor])
+
+        U.nextRecord = nRec
+
+
 
 
 #print '{0}\r'.format(x),
 
 #======================================
 #
-def findLastPacketConfig():
+def findLastConfig():
 
+    # look for fixed config information
+    if len(G.recDict[G.recType_getFixedConfig]) > 0:
+        fc = G.recDict[G.recType_getFixedConfig][-1][2]   # the latest fixed config
+    else:
+        fc = 0                                            # or 0 if none found
+
+    # if new, save it and print it
+    if fc != U.lastFixedConfig:        
+        U.lastFixedConfig = fc
+        print "New fixed configuration " + str(fc)
+
+
+    # look for packet config information
     if len(G.recDict[G.recType_getPacketConfig]) > 0:
         pc = G.recDict[G.recType_getPacketConfig][-1][2:] # the latest packet config
     else:
-        pc = []                                             # or [] if none found
+        pc = []                                           # or [] if none found
 
-    sc = []
-    if pc != U.lastPacketConfig:
-        
+    # if new, save it and print it
+    if pc != U.lastPacketConfig:       
         U.lastPacketConfig = pc
+
+        sc = {}
+        for i in range(pc[0]):      # decode the packet config record
+            s = pc[i*2+1]           # sensor
+            l = pc[i*2+2]           # max data length
+            sc[s] = l
+
+        U.lastSensorConfig = sc     # save it
         G.configIsSet = True
-        for i in range(pc[0]):
-            sc.append(pc[i*2+1:i*2+3])
-            
+
+
         print "New packet configuration " + str(pc)
         print "New sensor configuration " + str(sc)
+
+
 
 
 
