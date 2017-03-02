@@ -168,6 +168,11 @@ def analyzeData():
 
         # analyze the raw data stream and sort it into records. 
         findRecords()
+
+        # look for a change in configuration
+        findLastConfig()
+
+        # call user analysis code
         A.a.analLoop()
 
         # write data to an output file if the dumpData flag is set
@@ -229,5 +234,49 @@ def findRecords():
 
         else:
             i += 1
+
+
+#======================================
+# This method looks for changes to the fixed
+# configuration of the IOLab remote (for now just assumes 
+# you are using one remote)
+#
+def findLastConfig():
+
+    # look for fixed config information
+    if len(G.recDict[G.recType_getFixedConfig]) > 0:
+        fc = G.recDict[G.recType_getFixedConfig][-1][2]   # the latest fixed config
+    else:
+        fc = 0                                            # or 0 if none found
+
+    # if new, save it and print it
+    if fc != G.lastFixedConfig:        
+        G.lastFixedConfig = fc
+        print "New fixed configuration " + str(fc)
+
+
+    # look for packet config information
+    if len(G.recDict[G.recType_getPacketConfig]) > 0:
+        pc = G.recDict[G.recType_getPacketConfig][-1][2:] # the latest packet config
+    else:
+        pc = []                                           # or [] if none found
+
+    # if new, save it and print it
+    if pc != G.lastPacketConfig:       
+        G.lastPacketConfig = pc
+
+        sc = {}
+        for i in range(pc[0]):      # decode the packet config record
+            s = pc[i*2+1]           # sensor
+            l = pc[i*2+2]           # max data length
+            sc[s] = l
+
+        G.lastSensorBytes = sc     # save it
+        G.configIsSet = True
+
+
+        print "New packet configuration " + str(pc)
+        print "New sensor configuration " + str(sc)
+
 
 

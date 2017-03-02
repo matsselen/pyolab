@@ -11,11 +11,6 @@ but its something Mats understands.
 class U(object):
 
     analUserCalls = 0           # how many times analUserLoop() has been called
-    nextRecord = 0              # used to keep track of where we are
-    lastFixedConfig = 0         # the last fixed config record received
-    lastPacketConfig = []       # the last packet config record received
-    lastSensorBytes = {}        # dictionary of maximum byte-counts keyed by sensor
-                                # 
 
 
     

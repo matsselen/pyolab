@@ -19,7 +19,13 @@ so that users can create their own analysis jobs.
  
 This is example code that opens the serial port,
 launches data fetching and data analysis threads, 
-and responds to user input
+and responds to user input. 
+
+It is assumed that the interesting stuff is cone by the user code,
+which is to say, the files that start with "user". Each such set of 
+files can be kept in a separate folder beneath the folder that contains 
+the CommonCode folder. 
+
 """
 
 #=========================================

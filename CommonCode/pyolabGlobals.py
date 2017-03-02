@@ -22,7 +22,13 @@ class G(object):
     # raw data retrieval and analysis - don't mess with these
     dataList = []        # data received from the serial port
     dataPointer = 0      # pointer to the next raw byte to be analyzed
-    nextData = 0        # used by findRecords() - 
+    nextData = 0        # used by findRecords()
+
+    # used by data analysis
+    lastFixedConfig = 0         # the last fixed config record received
+    lastPacketConfig = []       # the last packet config record received
+    lastSensorBytes = {}        # dictionary of maximum byte-counts keyed by sensor
+
     
     #  Here is a description of the various record types along with their format.
     #  These are described in detail in the USB Interface Specification document 
