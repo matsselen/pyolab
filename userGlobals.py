@@ -12,9 +12,10 @@ class U(object):
 
     analUserCalls = 0           # how many times analUserLoop() has been called
     nextRecord = 0              # used to keep track of where we are
-    lastPacketConfig = []       # the last packet config record received
-    lastSensorConfig = []       # slightly processed version of the last packet record
     lastFixedConfig = 0         # the last fixed config record received
+    lastPacketConfig = []       # the last packet config record received
+    lastSensorBytes = {}        # dictionary of maximum byte-counts keyed by sensor
+                                # 
 
 
     
