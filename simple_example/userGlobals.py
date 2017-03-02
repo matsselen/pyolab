@@ -10,5 +10,8 @@ but its something Mats understands.
 
 class U(object):
 
-    userCalls = 0    # example
+    analUserCalls = 0           # how many times analUserLoop() has been called
+
+
+    
 

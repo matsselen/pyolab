@@ -5,7 +5,7 @@ import serial.tools.list_ports
 from threading import Thread
 
 # local stuff
-from pyolabGlobals import *
+from pyolabGlobals import G
 
 
 """
@@ -74,7 +74,7 @@ def getDongleStatus(s):
 
 	command = [0x02, 0x14, 0x00, 0x0A] 
 	s.write(bytearray(command))
-	time.sleep(0.2)  #give the serial port some time to receive the data
+	time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 
 #======================================
 # Ask remote 1 to send a data packet of type 0x2a telling us its status
@@ -82,7 +82,7 @@ def getRemoteStatus(s):
 
 	command = [0x02, 0x2A, 0x01, 0x01, 0x0A] #remote 1
 	s.write(bytearray(command))
-	time.sleep(0.2)  #give the serial port some time to receive the data
+	time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 
 #======================================
 # Ask remote 1 to send a data packet of type 0x28 telling us the format of the 
@@ -91,7 +91,7 @@ def getPacketConfig(s):
 
 	command = [0x02, 0x28, 0x01, 0x01, 0x0A] #remote 1
 	s.write(bytearray(command))
-	time.sleep(0.2)  #give the serial port some time to receive the data
+	time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 
 #======================================
 # Ask remote 1 to send a data packet of type 0x27 telling us the current sensor configuration 
@@ -99,7 +99,7 @@ def getFixedConfig(s):
 
 	command = [0x02, 0x27, 0x01, 0x01, 0x0A] #remote 1
 	s.write(bytearray(command))
-	time.sleep(0.2)  #give the serial port some time to receive the data
+	time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 
 #======================================
 # Ask remote 1 to set the current sensor configuration to "n". 
@@ -108,7 +108,7 @@ def setFixedConfig(s,n):
 
 	command = [0x02, 0x26, 0x02, 0x01, n, 0x0A] #remote 1
 	s.write(bytearray(command))
-	time.sleep(0.2)  #give the serial port some time to receive the data
+	time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 
 #======================================
 # Start data acquisition. 
@@ -120,7 +120,7 @@ def startData(s):
 
 	command = [0x02, 0x20, 0x00, 0x0A]
 	s.write(bytearray(command))
-	time.sleep(0.2)  #give the serial port some time to receive the data
+	time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 	
 #======================================
 # Stop data acquisition. 
@@ -129,7 +129,7 @@ def stopData(s):
 
 	command = [0x02, 0x21, 0x00, 0x0A]
 	s.write(bytearray(command))
-	time.sleep(0.2)  #give the serial port some time to receive the data
+	time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 
 #======================================
 # Power down remote. 
@@ -138,6 +138,6 @@ def powerDown(s):
 
     command = [0x02, 0x2B, 0x01, 0x01, 0x0A] #remote 1
     s.write(bytearray(command))
-    time.sleep(0.2)  #give the serial port some time to receive the data
+    time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 
 

@@ -3,9 +3,9 @@
 import time
 
 # local stuff
-from pyolabGlobals import *
-from userMethods import *
+from pyolabGlobals import G
 from commMethods import *
+from analClass import A
 from iolabInfo import *
 
 """
@@ -46,6 +46,7 @@ def startItUp():
 
         return True
     else:
+        print "Can't open the comm port - is there a dongle plugged in?"
         return False
 
 
@@ -133,7 +134,7 @@ def analyzeDataThread():
         G.outputFile = open('data.txt','w') # file opened in pwd
 
     # user code that is called at the beginning
-    analUserStart()
+    A.a.analStart()
 
     # keep looping as long as G.running is True
     while G.running:
@@ -144,7 +145,7 @@ def analyzeDataThread():
     print "Exiting analyzeDataThread"
 
     # user code that is called at the end
-    analUserEnd()
+    A.a.analEnd()
 
     if G.dumpData:
         G.outputFile.close()
@@ -167,7 +168,12 @@ def analyzeData():
 
         # analyze the raw data stream and sort it into records. 
         findRecords()
-        analUserLoop()
+
+        # look for a change in configuration
+        findLastConfig()
+
+        # call user analysis code
+        A.a.analLoop()
 
         # write data to an output file if the dumpData flag is set
         if G.dumpData:
@@ -199,6 +205,7 @@ def findRecords():
             # find record type
             for recType in G.recTypeList:
                 if G.dataList[i+1] == recType:
+
                     # find byte count (BC)
                     # see if we can find the end of packet (EOP) byte = 0xa
                     ndata = G.dataList[i+2]
@@ -207,7 +214,14 @@ def findRecords():
                         if G.dataList[i+3+ndata] == 0xa:
                             # if SOP, BC, and EOP are all consistent then save the record
                             rec = G.dataList[i+2:i+3+ndata]
+                            # add record to the appropriate list
                             G.recDict[recType].append(rec)
+                            # if the thing we just received was a NACK it means a command was
+                            # not properly serviced, so we should tell someone
+                            if recType == G.recType_NACK:
+                                print " NACK: " + str(rec)
+
+                            # figure out where we are starting next
                             G.nextData = i + 4 + ndata # where the next record starts
                             i = G.nextData - 1         # since we are adding 1 after the break
                             break
@@ -220,4 +234,49 @@ def findRecords():
 
         else:
             i += 1
+
+
+#======================================
+# This method looks for changes to the fixed
+# configuration of the IOLab remote (for now just assumes 
+# you are using one remote)
+#
+def findLastConfig():
+
+    # look for fixed config information
+    if len(G.recDict[G.recType_getFixedConfig]) > 0:
+        fc = G.recDict[G.recType_getFixedConfig][-1][2]   # the latest fixed config
+    else:
+        fc = 0                                            # or 0 if none found
+
+    # if new, save it and print it
+    if fc != G.lastFixedConfig:        
+        G.lastFixedConfig = fc
+        print "New fixed configuration " + str(fc)
+
+
+    # look for packet config information
+    if len(G.recDict[G.recType_getPacketConfig]) > 0:
+        pc = G.recDict[G.recType_getPacketConfig][-1][2:] # the latest packet config
+    else:
+        pc = []                                           # or [] if none found
+
+    # if new, save it and print it
+    if pc != G.lastPacketConfig:       
+        G.lastPacketConfig = pc
+
+        sc = {}
+        for i in range(pc[0]):      # decode the packet config record
+            s = pc[i*2+1]           # sensor
+            l = pc[i*2+2]           # max data length
+            sc[s] = l
+
+        G.lastSensorBytes = sc     # save it
+        G.configIsSet = True
+
+
+        print "New packet configuration " + str(pc)
+        print "New sensor configuration " + str(sc)
+
+
 

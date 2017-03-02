@@ -1,10 +1,13 @@
 # system stuff
+import sys
 import time
 
-# local stuff
-from pyolabGlobals import *
-from userGlobals import *
-from iolabInfo import *
+# local common code
+sys.path.append('../CommonCode/')
+from pyolabGlobals import G
+
+# local user code
+from userGlobals import U
 
 """
 Files starting with the name "user", like this one, are provided 
@@ -26,12 +29,14 @@ def analUserStart():
 #
 def analUserEnd():
     print "in analUserEnd()"
-    print "analUserLoop() was called " + str(U.userCalls) + " times"
+    print "analUserLoop() was called " + str(U.analUserCalls) + " times"
+
 
 #======================================================================
 # User code called whenever new data is detected in the main analysis loop 
 #
 def analUserLoop():
-    U.userCalls += 1
+    U.analUserCalls += 1
+
 
 
