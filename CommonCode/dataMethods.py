@@ -1,6 +1,6 @@
 # system stuff
-# system stuff
 import time
+import numpy as np
 
 # local stuff
 from pyolabGlobals import G
@@ -136,6 +136,11 @@ def analyzeDataThread():
     # user code that is called at the beginning
     A.a.analStart()
 
+    # set up a dictionary of lists to hold sensor data
+    sensorList = sensorName('SensorList')
+    for sensNum in sensorList:
+        G.sensorDataDict[sensNum] = []
+
     # keep looping as long as G.running is True
     while G.running:
         newPointer = analyzeData()
@@ -171,6 +176,9 @@ def analyzeData():
 
         # look for a change in configuration
         findLastConfig()
+
+        # extract sensor data information from the data records
+        decodeDataPayloads()
 
         # call user analysis code
         A.a.analLoop()
@@ -277,6 +285,214 @@ def findLastConfig():
 
         print "New packet configuration " + str(pc)
         print "New sensor configuration " + str(sc)
+
+
+#======================================================================
+# Extracts the payload data from dataFromRemote records and calls 
+# extractSensorData() to extract raw sensor data from these 
+#
+def decodeDataPayloads():
+    nRec = len(G.recDict[G.recType_dataFromRemote])
+    if nRec > G.nextRecord:
+        for n in range(G.nextRecord,nRec):
+            r = G.recDict[G.recType_dataFromRemote][n]
+            nSens = r[4] # number of sensors in this data record
+
+            # this should be the same as the number expected for this config
+            if nSens != len(G.lastSensorBytes):
+                print "sensors found "+str(nSens)+" expected "+str(len(G.lastSensorBytes))
+
+            i = 5        # pointer to info and data from first sensor
+            nSaved = 0   # the number of sensors we have saved data from
+            while nSaved < nSens:
+                thisSensor = r[i] & 0x7F            # ID of the current sensor
+                sensorOverflow = r[i] > thisSensor  # is overflow bit set?
+                recSequence = r[2]                  # byte incremented every record
+
+                # the first couple if records may have the overflow bit set
+                if sensorOverflow:
+                    print "overflow on recSequence " +str(recSequence)+" sensor "+str(thisSensor)
+
+                # make sure thisSensor is on the list of expected sensors for this config
+                if thisSensor in G.lastSensorBytes:
+                    nValidBytes = r[i+1]
+                    sensorBytes = r[i+2:i+2+nValidBytes]
+                    extractSensorData(thisSensor,sensorBytes)
+                else:
+                    print "Bailing out after finding wrong sensor: " +str(thisSensor) + " in " + str(r)
+                    return
+
+                nSaved += 1
+
+                i += (2 + G.lastSensorBytes[thisSensor])
+
+        G.nextRecord = nRec
+
+#======================================================================
+# Extracts the data from individual sensor sub-payloads.
+# Sensors extracted are marked with * (I'm still working on this)
+#
+#  * 'Accelerometer',
+#  * 'Magnetometer',
+#  * 'Gyroscope',
+#  - 'Barometer',
+#  * 'Microphone',
+#  * 'Light',
+#  * 'Force',
+#  * 'Wheel',
+#  - 'ECG3',
+#  - 'Battery',
+#  * 'HighGain',
+#  * 'Analog7',
+#  * 'Analog8',
+#  * 'Analog9',
+#  - 'Thermometer',
+#  - 'ECG9'
+#
+def extractSensorData(sensor,data):
+
+    # Accelerometer
+    if sensorName(sensor) == 'Accelerometer':
+        # data comes in 6 byte blocks
+        if(len(data)%6 > 0):
+            print "Accelerometer data not a multiple of 6"
+        else:
+            nsets = len(data)/6
+            for i in range(nsets):
+                d = data[i*6:i*6+6]
+                d01 = np.int16(d[0]<<8 | d[1])
+                d23 = np.int16(d[2]<<8 | d[3])
+                d45 = np.int16(d[4]<<8 | d[5])
+                G.sensorDataDict[sensor].append([-d23,d01,d45])
+
+    # Magnetometer
+    if sensorName(sensor) == 'Magnetometer':
+        # data comes in 6 byte blocks
+        if(len(data)%6 > 0):
+            print "Magnetometer data not a multiple of 6"
+        else:
+            nsets = len(data)/6
+            for i in range(nsets):
+                d = data[i*6:i*6+6]
+                d01 = np.int16(d[0]<<8 | d[1])
+                d23 = np.int16(d[2]<<8 | d[3])
+                d45 = np.int16(d[4]<<8 | d[5])
+                G.sensorDataDict[sensor].append([-d01,-d23,-d45])
+
+    # Gyroscope
+    if sensorName(sensor) == 'Gyroscope':
+        # data comes in 6 byte blocks
+        if(len(data)%6 > 0):
+            print "Gyroscope data not a multiple of 6"
+        else:
+            nsets = len(data)/6
+            for i in range(nsets):
+                d = data[i*6:i*6+6]
+                d01 = np.int16(d[0]<<8 | d[1])
+                d23 = np.int16(d[2]<<8 | d[3])
+                d45 = np.int16(d[4]<<8 | d[5])
+                G.sensorDataDict[sensor].append([-d23,d01,d45])
+
+    # Microphone
+    if sensorName(sensor) == 'Microphone':
+        # data comes in 2 byte blocks
+        if(len(data)%2 > 0):
+            print "Microphone data not a multiple of 2"
+        else:
+            nsets = len(data)/2
+            for i in range(nsets):
+                d = data[i*2:i*2+2]
+                d01 = np.uint16(d[0]<<8 | d[1])
+                G.sensorDataDict[sensor].append(d01)
+
+    # Light
+    if sensorName(sensor) == 'Light':
+        # data comes in 2 byte blocks
+        if(len(data)%2 > 0):
+            print "Light data not a multiple of 2"
+        else:
+            nsets = len(data)/2
+            for i in range(nsets):
+                d = data[i*2:i*2+2]
+                d01 = np.uint16(d[0]<<8 | d[1])
+                G.sensorDataDict[sensor].append(d01)
+
+    # Force
+    if sensorName(sensor) == 'Force':
+        # data comes in 2 byte blocks
+        if(len(data)%2 > 0):
+            print "Force data not a multiple of 2"
+        else:
+            nsets = len(data)/2
+            for i in range(nsets):
+                d = data[i*2:i*2+2]
+                d01 = np.int16(d[0]<<8 | d[1])
+                G.sensorDataDict[sensor].append(d01)
+
+    # Wheel
+    if sensorName(sensor) == 'Wheel':
+        # data comes in 2 byte blocks
+        if(len(data)%2 > 0):
+            print "Wheel data not a multiple of 2"
+        else:
+            nsets = len(data)/2
+            for i in range(nsets):
+                d = data[i*2:i*2+2]
+                d01 = np.int16(d[0]<<8 | d[1])
+                G.sensorDataDict[sensor].append(d01)
+
+    # HighGain
+    if sensorName(sensor) == 'HighGain':
+        # data comes in 2 byte blocks
+        if(len(data)%2 > 0):
+            print "HighGain data not a multiple of 2"
+        else:
+            nsets = len(data)/2
+            for i in range(nsets):
+                d = data[i*2:i*2+2]
+                d01 = np.uint16(d[0]<<8 | d[1])
+                G.sensorDataDict[sensor].append(d01)
+
+    # Analog7
+    if sensorName(sensor) == 'Analog7':
+        # data comes in 2 byte blocks
+        if(len(data)%2 > 0):
+            print "Analog7 data not a multiple of 2"
+        else:
+            nsets = len(data)/2
+            for i in range(nsets):
+                d = data[i*2:i*2+2]
+                d01 = np.uint16(d[0]<<8 | d[1])
+                G.sensorDataDict[sensor].append(d01)
+
+    # Analog8
+    if sensorName(sensor) == 'Analog8':
+        # data comes in 2 byte blocks
+        if(len(data)%2 > 0):
+            print "Analog8 data not a multiple of 2"
+        else:
+            nsets = len(data)/2
+            for i in range(nsets):
+                d = data[i*2:i*2+2]
+                d01 = np.uint16(d[0]<<8 | d[1])
+                G.sensorDataDict[sensor].append(d01)
+
+    # Analog9
+    if sensorName(sensor) == 'Analog9':
+        # data comes in 2 byte blocks
+        if(len(data)%2 > 0):
+            print "Analog9 data not a multiple of 2"
+        else:
+            nsets = len(data)/2
+            for i in range(nsets):
+                d = data[i*2:i*2+2]
+                d01 = np.uint16(d[0]<<8 | d[1])
+                G.sensorDataDict[sensor].append(d01)
+
+
+
+
+
 
 
 

@@ -9,8 +9,8 @@ class G(object):
     sleepTimeRead = 0.05 # time to sleep each read loop
     sleepTimeAnal = 0.11 # time to sleep each read loop
     sleepCommand  = 0.10 # time to sleep after a command is sent
-    dumpData = True      # if True the base analysis code dumps data to a file
-    running  = True      # used to signal treads to quit
+    dumpData    = True   # if True the base analysis code dumps data to a file
+    running     = True   # used to signal treads to quit
     configIsSet = False  # is it?
 
     # ports & files & threads
@@ -22,12 +22,13 @@ class G(object):
     # raw data retrieval and analysis - don't mess with these
     dataList = []        # data received from the serial port
     dataPointer = 0      # pointer to the next raw byte to be analyzed
-    nextData = 0        # used by findRecords()
+    nextData    = 0      # used by findRecords()
+    nextRecord  = 0      # used by decodeDataPayloads()
 
     # used by data analysis
-    lastFixedConfig = 0         # the last fixed config record received
+    lastFixedConfig  = 0        # the last fixed config record received
     lastPacketConfig = []       # the last packet config record received
-    lastSensorBytes = {}        # dictionary of maximum byte-counts keyed by sensor
+    lastSensorBytes  = {}       # dictionary of maximum byte-counts keyed by sensor
 
     
     #  Here is a description of the various record types along with their format.
@@ -62,8 +63,7 @@ class G(object):
     recType_dataFromRemote = 0x41
     #   0x41 =  65 (asynchronous data records sent during actual data acquisition)
     #   Record: 0x02 : 0x41 : Nbytes : Remote : Frame# : RFinfo : Data Packet : RSSI : 0xa
-
-     
+  
     # this is a list of the record types that findRecords() will look for
     recTypeList = [recType_dataFromRemote, 
                    recType_getFixedConfig, 
@@ -72,10 +72,25 @@ class G(object):
                    recType_getDongleStatus, 
                    recType_getRemoteStatus, 
                    recType_ACK, 
-                   recType_NACK]
+                   recType_NACK
+                   ]
 
-    # dictionary that stores received records, keyed by types outlined below
+    # this is a dictionary of record type names keyed by record type number
+    recTypeDict = {recType_dataFromRemote : 'dataFromRemote',
+                   recType_getFixedConfig : 'getFixedConfig',
+                   recType_getPacketConfig : 'getPacketConfig',
+                   recType_rfStatusFromRemote : 'rfStatusFromRemote',
+                   recType_getDongleStatus : 'getDongleStatus',
+                   recType_getRemoteStatus : 'getRemoteStatus',
+                   recType_ACK : 'ACK',
+                   recType_NACK : 'NACK'
+                   }
+
+
+    # Dictionary that stores received records, keyed by types outlined below
     recDict   = {}  
 
-        
+    # Dictionary that stores raw data from sensors, keyed by sensor number. 
+    # Each key returns a list of numbers, or a lists if data is more than 1D.
+    sensorDataDict = {}
 

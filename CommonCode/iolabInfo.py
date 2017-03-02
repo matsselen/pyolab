@@ -8,32 +8,36 @@ Probably more useful for documentation than anyting else.
 
 #======================================
 # Provides a way to match sensor number with sensor name
+# if called with sensNum = 'SensorList', returns list of all sensor numbers]
 #
 def sensorName(sensNum):
-	
-	sensorDict = {
-		1  : 'Accelerometer',
-		2  : 'Magnetometer',
-		3  : 'Gyroscope',
-		4  : 'Barometer',
-		6  : 'Microphone',
-		7  : 'Light',
-		8  : 'Force',
-		9  : 'Wheel',
-		10 : 'ECG3',
-		11 : 'Battery',
-		12 : 'High Gain',
-		21 : 'Analog 7',
-		22 : 'Analog 8',
-		23 : 'Analog 9',
-		26 : 'Thermometer',
-		241: 'ECG9'
-	}
+    
+    sensorDict = {
+        1  : 'Accelerometer',
+        2  : 'Magnetometer',
+        3  : 'Gyroscope',
+        4  : 'Barometer',
+        6  : 'Microphone',
+        7  : 'Light',
+        8  : 'Force',
+        9  : 'Wheel',
+        10 : 'ECG3',
+        11 : 'Battery',
+        12 : 'HighGain',
+        21 : 'Analog7',
+        22 : 'Analog8',
+        23 : 'Analog9',
+        26 : 'Thermometer',
+        241: 'ECG9'
+    }
 
-	if sensNum in sensorDict:
-		return sensorDict[sensNum]
-	else:
-		return ''
+    if sensNum == 'SensorList':
+        return sensorDict.keys()
+
+    if sensNum in sensorDict:
+        return sensorDict[sensNum]
+    else:
+        return ''
 
 #======================================
 # Provides a way to match sensor configuration number with 
@@ -41,8 +45,8 @@ def sensorName(sensNum):
 # and sample rates this configuration uses
 #
 def configName(configNum):
-	
-	configDict = {
+        
+    configDict = {
      1:['Gyroscope',1,
             [{ 'sensor': 3, 'rate': 380 }]],
 
@@ -86,7 +90,7 @@ def configName(configNum):
             [{ 'sensor': 6, 'rate': 2400 }]],
 
      10:['Magnetic',2,
-            [{ 'sensor': 2, 'rate': 80 },
+                [{ 'sensor': 2, 'rate': 80 },
              { 'sensor': 12, 'rate': 400 }]],
 
      32:['Gyroscope (HS)',1,
@@ -169,8 +173,8 @@ def configName(configNum):
     }
 
 
-	if configNum in configDict:
-		return configDict[configNum]
-	else:
-		return ''
+    if configNum in configDict:
+        return configDict[configNum]
+    else:
+        return ''
 

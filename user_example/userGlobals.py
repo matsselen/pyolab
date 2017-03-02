@@ -11,8 +11,7 @@ but its something Mats understands.
 class U(object):
 
     analUserCalls = 0           # how many times analUserLoop() has been called
-    nextRecord = 0              # used to keep track of where we are
-                                # 
+                                # (just for example - not needed in your own code)
 
 
     

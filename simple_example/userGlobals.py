@@ -11,6 +11,7 @@ but its something Mats understands.
 class U(object):
 
     analUserCalls = 0           # how many times analUserLoop() has been called
+                                # (just for example - not needed in your own code)
 
 
     
