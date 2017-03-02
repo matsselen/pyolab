@@ -4,8 +4,10 @@ import time
 
 # local stuff
 from pyolabGlobals import G
+from analClass import A
 from commMethods import *
 from dataMethods import *
+from userMethods import *
 
 """
 Files starting with the name "user", like this one, are provided 
@@ -24,6 +26,9 @@ and responds to user input
 if not startItUp():
     print "Problems getting things started...bye"
     os._exit(1)
+
+
+anal = A(analUserStart,analUserEnd,analUserLoop)
 
 # Loop to get user commands.
 while G.running:

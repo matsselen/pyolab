@@ -5,7 +5,7 @@ import time
 # local stuff
 from pyolabGlobals import G
 from commMethods import *
-from userMethods import *
+from analClass import A
 from iolabInfo import *
 
 """
@@ -134,7 +134,7 @@ def analyzeDataThread():
         G.outputFile = open('data.txt','w') # file opened in pwd
 
     # user code that is called at the beginning
-    analUserStart()
+    A.a.analStart()
 
     # keep looping as long as G.running is True
     while G.running:
@@ -145,7 +145,7 @@ def analyzeDataThread():
     print "Exiting analyzeDataThread"
 
     # user code that is called at the end
-    analUserEnd()
+    A.a.analEnd()
 
     if G.dumpData:
         G.outputFile.close()
@@ -168,7 +168,7 @@ def analyzeData():
 
         # analyze the raw data stream and sort it into records. 
         findRecords()
-        analUserLoop()
+        A.a.analLoop()
 
         # write data to an output file if the dumpData flag is set
         if G.dumpData:
