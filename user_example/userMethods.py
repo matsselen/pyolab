@@ -50,7 +50,6 @@ def analUserLoop():
 
             i = 5        # pointer to info and data from first sensor
             nSaved = 0   # the number of sensors we have saved data from
-            #
             while nSaved < nSens:
                 thisSensor = r[i] & 0x7F            # ID of the current sensor
                 sensorOverflow = r[i] > thisSensor  # is overflow bit set?
