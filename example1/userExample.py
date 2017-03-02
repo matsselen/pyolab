@@ -1,12 +1,16 @@
 # system stuff
 import os
+import sys
 import time
 
-# local stuff
+# local common code
+sys.path.append('../CommonCode/')
 from pyolabGlobals import G
 from analClass import A
 from commMethods import *
 from dataMethods import *
+
+# local user code
 from userMethods import *
 
 """
@@ -27,8 +31,13 @@ if not startItUp():
     print "Problems getting things started...bye"
     os._exit(1)
 
-
-anal = A(analUserStart,analUserEnd,analUserLoop)
+# This instantiates an object that holds information about which user analysis
+# methods are to be called by the main analysis code. Doing it it this way removes
+# the need for the analysis code to know about the user code in advance.
+# It is assumed that the methods analUserStart(), analUserEnd(), analUserLoop()
+# are all localed in the local file "userMethods.py"
+#
+anal = A(analUserStart, analUserEnd, analUserLoop)
 
 # Loop to get user commands.
 while G.running:

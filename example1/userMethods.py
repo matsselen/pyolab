@@ -1,8 +1,12 @@
 # system stuff
+import sys
 import time
 
-# local stuff
+# local common code
+sys.path.append('../CommonCode/')
 from pyolabGlobals import G
+
+# local user code
 from userGlobals import U
 
 """
