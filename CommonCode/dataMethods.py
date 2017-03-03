@@ -26,7 +26,7 @@ ways.
 # 
 def startItUp():
 
-    # Start by finding the serial the IOLab port
+    # Start by finding the serial port that the IOLab dongle is plugged into
     portName = getIOLabPortName()
     
     # Open this port if one was found, otherwise quit. 

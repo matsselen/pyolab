@@ -14,15 +14,9 @@ from dataMethods import *
 from userMethods import *
 
 """
-Files starting with the name "user", like this one, are provided 
-so that users can create their own analysis jobs.
- 
 This is example code that opens the serial port,
 launches data fetching and data analysis threads, 
 and responds to user input
-
-It is assumed that the interesting stuff is done by the user code,
-which is to say, the files that start with "user". 
 
 """
 
@@ -30,6 +24,10 @@ which is to say, the files that start with "user".
 # This is the main code. All it does is open the serial port,
 # launch the data fetching and data analysis threads, and then
 # go into a loop waiting for user input
+
+# This causes the raw data to be dumped to a file called "data.txt" in
+# the working directory
+G.dumpData = True
 
 if not startItUp():
     print "Problems getting things started...bye"
