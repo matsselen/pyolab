@@ -1,3 +1,9 @@
+=================================
+ pyolab  |build-status| |docs|
+=================================
+
+Overview
+========
 The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system, including examples of configuring the system and acquiring data. 
 
 CommonCode:
