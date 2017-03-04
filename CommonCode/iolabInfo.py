@@ -1,7 +1,6 @@
 """
 This file contains some methods that provide some info about
 the IOLab hardware & firmware (basically documentation). 
-Probably more useful for documentation than anyting else. 
 
 """
 

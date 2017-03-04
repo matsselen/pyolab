@@ -8,6 +8,7 @@ The point of this project is to provide a suite of python routines that gives us
 
 This folder contains a collection of methods to allow the user to open a serial port, send commands to the IOLab hardware, and receive both status information and asynchronous data from the hardware:
 
+<<<<<<< Updated upstream
 * __commMethods.py__  
 Communication with the IOLab hardware via the USB virtual com port. 
 * __dataMethods.py__  
@@ -35,6 +36,14 @@ analysis to expose the user to acquired data.
 Example of some global user variables used by the user methods (may not be needed by your code). 
 
 ---
+=======
+* ___commMethods.py___ Communication with the IOLab hardware via the USB virtual com port. 
+* dataMethods.py
+* iolabInfo.py
+* pyolabGlobals.py
+* analClass.py
+
+>>>>>>> Stashed changes
 
 ## pyserial
 PyOLab requires the pyserial module to handle com port communication. You can find more information at https://github.com/pyserial/pyserial/. 
