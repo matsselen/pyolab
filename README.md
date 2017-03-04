@@ -2,7 +2,7 @@
 
 ## Overview
 
-The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system, including examples of configuring the system and acquiring data. The are three main folders in this archive: __CommonCode__, __Example__, and __Documentation__
+The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system, including examples of configuring the system and acquiring data. The are three main folders in this archive: __CommonCode__, __Example__, and __Documentation__. The user code in the __Example__ folder calls the PyOLab methods in the __CommonCode__ folder, and useful notes and information is placed in the __Documentation__ folder. It all works, but you sholud be warned that the author is a phycisict, not a programmer, and that everyhting is still evolving. 
 
 ## CommonCode
 
