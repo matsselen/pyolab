@@ -19,6 +19,8 @@ Global structures and variables used to expose IOLab data and controls to the us
 * __analClass.py__  
 Used to separate the user code from the analysis code (basically a naive callback structure).
 
+---
+
 ## user_example
 
 This folder contains some example user code that imports and calls the PyOLab methods in CommonCode:
@@ -31,6 +33,8 @@ Example routines that are bound to the analysis thread in _main()_ and are calle
 analysis to expose the user to acquired data.  
 * __userGlobals.py__  
 Example global user variables (may not be needed). 
+
+---
 
 ## pyserial
 PyOLab requires the pyserial module to handle com port communication. You can find more information at https://github.com/pyserial/pyserial/. 
