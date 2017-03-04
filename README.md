@@ -10,10 +10,14 @@ This folder contains a collection of methods to allow the user to open a serial 
 
 * __commMethods.py__  
 Communication with the IOLab hardware via the USB virtual com port. 
-* dataMethods.py
-* iolabInfo.py
-* pyolabGlobals.py
-* analClass.py
+* __dataMethods.py__  
+Focused on decoding and organizing the data received from the IOLab system.
+* __iolabInfo.py__  
+Code to provide callable information about the IOLab hardware & firmware (basically documentation). 
+* __pyolabGlobals.py__  
+Global structures and variables used to expose IOLab data and controls to the user. 
+* __analClass.py__  
+Used to separate the user code from the analysis code (basically a call-back structore).
 
 
 ## pyserial
