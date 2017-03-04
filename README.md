@@ -2,13 +2,16 @@
 
 ## Overview
 
-The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system, including examples of configuring the system and acquiring data. The are three main folders in this archive: __CommonCode__, __Example__, and __Documentation__. The user code in the __Example__ folder calls the PyOLab methods in the __CommonCode__ folder, and useful notes and information is placed in the __Documentation__ folder. It all works, but you sholud be warned that the author is a phycisict, not a programmer, and that everyhting is still evolving. 
+The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system, including examples of configuring the system and acquiring data. 
+
+The are three main folders in this archive: __CommonCode__, __Example__, and __Documentation__. The user code in the __Example__ folder calls the PyOLab methods in the __CommonCode__ folder, and useful notes and information is placed in the __Documentation__ folder. 
+
+It all works, but you sholud be warned that the author is a phycisict, not a programmer, and that everyhting is still evolving. 
 
 ## CommonCode
 
 This folder contains a collection of methods to allow the user to open a serial port, send commands to the IOLab hardware, and receive both status information and asynchronous data from the hardware:
 
-<<<<<<< Updated upstream
 * __commMethods.py__  
 Communication with the IOLab hardware via the USB virtual com port. 
 * __dataMethods.py__  
@@ -36,17 +39,9 @@ analysis to expose the user to acquired data.
 Example of some global user variables used by the user methods (may not be needed by your code). 
 
 ---
-=======
-* ___commMethods.py___ Communication with the IOLab hardware via the USB virtual com port. 
-* dataMethods.py
-* iolabInfo.py
-* pyolabGlobals.py
-* analClass.py
-
->>>>>>> Stashed changes
 
 ## pyserial
 PyOLab requires the pyserial module to handle com port communication. You can find more information at https://github.com/pyserial/pyserial/. 
 
-Basic installation is easy: `pip install pyserial` should work for most users.
+Basic installation of pyserial is straightforward: `pip install pyserial` should work for most users.
 
