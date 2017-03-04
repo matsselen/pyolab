@@ -8,7 +8,7 @@ The point of this project is to provide a suite of python routines that gives us
 
 This folder contains a collection of methods to allow the user to open a serial port, send commands to the IOLab hardware, and receive both status information and asynchronous data from the hardware:
 
-* _commMethods.py_ Communication with the IOLab hardware via the USB virtual com port. 
+* __commMethods.py__ Communication with the IOLab hardware via the USB virtual com port. 
 * dataMethods.py
 * iolabInfo.py
 * pyolabGlobals.py
