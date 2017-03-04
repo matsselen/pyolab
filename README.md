@@ -17,7 +17,7 @@ Code to provide callable information about the IOLab hardware & firmware (basica
 * __pyolabGlobals.py__  
 Global structures and variables used to expose IOLab data and controls to the user. 
 * __analClass.py__  
-Used to separate the user code from the analysis code (basically a call-back structore).
+Used to separate the user code from the analysis code (basically a naive callback structure).
 
 
 ## pyserial
