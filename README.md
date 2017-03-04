@@ -1,31 +1,14 @@
-# Heading
+# PyOLab 
 
-## Sub-heading
+## Overview
 
-### Another deeper heading
- 
-Paragraphs are separated
-by a blank line.
+The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system, including examples of configuring the system and acquiring data. 
 
-Two spaces at the end of a line leave a  
-line break.
+## CommonCode
 
-Text attributes _italic_, *italic*, __bold__, **bold**, `monospace`.
+This folder contains a collection of methods to allow the user to open a serial port, send commands to the IOLab hardware, and receive both status information and asynchronous data from the hardware. 
 
-Horizontal rule:
 
----
+The pyolab module requires the pyserial module to handle com port communication. You can find more information at https://github.com/pyserial/pyserial/. 
+Basic installation is easy: “pip install pyserial”
 
-Bullet list:
-
-  * apples
-  * oranges
-  * pears
-
-Numbered list:
-
-  1. apples
-  2. oranges
-  3. pears
-
-A [link](http://example.com).
