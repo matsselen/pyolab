@@ -19,7 +19,7 @@ These user methods are a handy way to try and isolate the user code from the
 library code.  
 
 In this particular example the user code print out any accelerometer data that 
-is received from the remote, and at the end of the job it printe a summary of
+is received from the remote, and at the end of the job it prints a summary of
 the records and data that were received from the system.
 
 """
