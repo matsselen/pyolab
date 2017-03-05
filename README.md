@@ -2,11 +2,11 @@
 
 ## Overview
 
-The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system. This archive contains a folder containing the PyOLab library code (__CommonCode__), two folders containing example user code (__HelloWorld__ and __Example__), and a folder containing Documentation (__Documentation__). 
+The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system. This archive contains a folder containing the PyOLab library code (__PyOLabCode__), two folders containing example user code (__HelloWorld__ and __Example__), and a folder containing Documentation (__Documentation__). 
 
 It all works, but you should be warned that the author is a phycisist, not a programmer, and that everyhting is still evolving. 
 
-## CommonCode 
+## PyOLabCode 
 
 This folder contains a collection of methods to allow the user to open a serial port, send commands to the IOLab hardware, and receive both status information and asynchronous data from the hardware:
 
