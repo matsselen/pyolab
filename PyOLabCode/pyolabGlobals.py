@@ -1,3 +1,11 @@
+#
+# This file is part of PyOLab. https://github.com/matsselen/pyolab
+# (C) 2017 Mats Selen <mats.selen@gmail.com>
+#
+# SPDX-License-Identifier:    BSD-3-Clause
+# (https://opensource.org/licenses/BSD-3-Clause)
+#
+
 """
 Global variables used by the pyolab library.
 These expose data acquired by the system, as well as control 

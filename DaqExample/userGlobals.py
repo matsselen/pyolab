@@ -1,3 +1,11 @@
+#
+# This file is part of PyOLab. https://github.com/matsselen/pyolab
+# (C) 2017 Mats Selen <mats.selen@gmail.com>
+#
+# SPDX-License-Identifier:    BSD-3-Clause
+# (https://opensource.org/licenses/BSD-3-Clause)
+#
+
 """
 Files starting with the name "user", like this one, are provided 
 so that users can create their own analysis jobs.

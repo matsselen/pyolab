@@ -1,3 +1,11 @@
+#
+# This file is part of PyOLab. https://github.com/matsselen/pyolab
+# (C) 2017 Mats Selen <mats.selen@gmail.com>
+#
+# SPDX-License-Identifier:    BSD-3-Clause
+# (https://opensource.org/licenses/BSD-3-Clause)
+#
+
 """
 This file contains some methods that provide some info about
 the IOLab hardware & firmware (basically documentation). 

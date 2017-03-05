@@ -1,3 +1,11 @@
+#
+# This file is part of PyOLab. https://github.com/matsselen/pyolab
+# (C) 2017 Mats Selen <mats.selen@gmail.com>
+#
+# SPDX-License-Identifier:    BSD-3-Clause
+# (https://opensource.org/licenses/BSD-3-Clause)
+#
+
 """
 This is a cheap (and probably naive) trick to allow us to separate the 
 user code from the analysis code. We basically create an instance
