@@ -5,8 +5,8 @@ import time
 
 # local common code
 sys.path.append('../CommonCode/')
+from analClass import AnalysisClass
 from pyolabGlobals import G
-from analClass import A
 from commMethods import *
 from dataMethods import *
 
@@ -14,9 +14,8 @@ from dataMethods import *
 from userMethods import *
 
 """
-This is example code that opens the serial port,
-launches data fetching and data analysis threads, 
-and responds to user input.
+This is example main() code that opens the serial port, launches data 
+fetching and data analysis threads, and responds to user input.
 
 """
 def main():
@@ -40,7 +39,7 @@ def main():
     # It is assumed that the methods analUserStart(), analUserEnd(), analUserLoop()
     # are all localed in the local file "userMethods.py"
     #
-    anal = A(analUserStart, analUserEnd, analUserLoop)
+    analClass = AnalysisClass(analUserStart, analUserEnd, analUserLoop)
     
     # Loop to get user commands.
     while G.running:

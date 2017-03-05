@@ -39,10 +39,10 @@ def analUserEnd():
         print "found "+str(count) + " records of type " + name
     print " "
 
-    for sensor in G.sensorDataDict:
+    for sensor in G.uncalDataDict:
         name = sensorName(sensor)
-        count = len(G.sensorDataDict[sensor])
-        print "found "+str(count) + " records of type " + name
+        count = len(G.uncalDataDict[sensor])
+        print "found "+str(count) + " measurements of type " + name
     print " "
 
 #======================================================================

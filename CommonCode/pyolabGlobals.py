@@ -1,5 +1,7 @@
 """
-global variables used by the pyolab library go here
+Global variables used by the pyolab library.
+These expose data acquired by the system, as well as control 
+parameters for the system and for this analysis code. 
 
 """
 
@@ -86,11 +88,28 @@ class G(object):
                    recType_NACK : 'NACK'
                    }
 
+    #=======================================================================
+    # The following dictionaries are basically the key outputs of the system 
 
-    # Dictionary that stores received records, keyed by types outlined below
     recDict   = {}  
+    # Dictionary that stores received records, keyed by record type as listed above
+    # (for example, asynchronous data records from the remote have type 0x41 =  65)
+    # Each record is stored as a list, starting with SOP = 0x2 and ending with EOP = 0xa.
+    # See Documentation/record_example_1.pdf for some examples.
+    # Find detailed documentation at Documentation/IOLab_usb_interface_specs.pdf
+    #
 
-    # Dictionary that stores raw data from sensors, keyed by sensor number. 
-    # Each key returns a list of numbers, or a lists if data is more than 1D.
-    sensorDataDict = {}
+
+    uncalDataDict = {}
+    # Dictionary that stores uncalibrated data from sensors, keyed by sensor number. 
+    # Each key returns a list of numbers, or a list of lists if data for a sensor involves
+    # more than a single number, such as the accelerometer for example, which returns 
+    # values for all 3 axes. (If you want to know details have a look at the Indesign documents 
+    # See Documentation/record_example_2.pdf for some examples.
+    # Find detailed documentation at Documentation/IOLab_data_specs.pdf
+    #
+
+
+
+
 

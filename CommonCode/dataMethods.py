@@ -3,9 +3,9 @@ import time
 import numpy as np
 
 # local stuff
+from analClass import AnalysisClass
 from pyolabGlobals import G
 from commMethods import *
-from analClass import A
 from iolabInfo import *
 
 """
@@ -134,12 +134,12 @@ def analyzeDataThread():
         G.outputFile = open('data.txt','w') # file opened in pwd
 
     # user code that is called at the beginning
-    A.a.analStart()
+    AnalysisClass.handle.analStart()
 
-    # set up a dictionary of lists to hold sensor data
+    # set up the of lists that will hold uncalibrated sensor data
     sensorList = sensorName('SensorList')
     for sensNum in sensorList:
-        G.sensorDataDict[sensNum] = []
+        G.uncalDataDict[sensNum] = []
 
     # keep looping as long as G.running is True
     while G.running:
@@ -150,7 +150,7 @@ def analyzeDataThread():
     print "Exiting analyzeDataThread"
 
     # user code that is called at the end
-    A.a.analEnd()
+    AnalysisClass.handle.analEnd()
 
     if G.dumpData:
         G.outputFile.close()
@@ -181,25 +181,24 @@ def analyzeData():
         decodeDataPayloads()
 
         # call user analysis code
-        A.a.analLoop()
+        AnalysisClass.handle.analLoop()
 
         # write data to an output file if the dumpData flag is set
         if G.dumpData:
-            #--------replace the part between these lines--------
             dataString = ''
             for i in range(G.dataPointer,dataLength):
                 dataString += hex(G.dataList[i])[2:] + ' '
             G.outputFile.write(dataString)
-            #--------replace the part between these lines--------
 
     return dataLength
 
 
-#======================================
+#===========================================================================================
 # This method spins through the raw data array and finds the actual data packet records received 
-# from the remote. These are described in detail in the USB Interface Specification document 
-# (Indesign document number 1814F03 Revision 11, available on the IOLab web page at
-#  http://www.iolab.science/Documents/IOLab_Expert_Docs/IOLab_usb_interface_specs.pdf)
+# from the remote. These are described in detail in the Indesign USB Interface Specification 
+# document that can be found at at Documentation/IOLab_usb_interface_specs.pdf)
+# 
+# The records are put into dictionary recDict (see pyolabGlobals.py)
 #
 def findRecords():
 
@@ -221,7 +220,7 @@ def findRecords():
                     if i+3+ndata < iLast:
                         if G.dataList[i+3+ndata] == 0xa:
                             # if SOP, BC, and EOP are all consistent then save the record
-                            rec = G.dataList[i+2:i+3+ndata]
+                            rec = G.dataList[i:i+4+ndata]
                             # add record to the appropriate list
                             G.recDict[recType].append(rec)
                             # if the thing we just received was a NACK it means a command was
@@ -244,16 +243,15 @@ def findRecords():
             i += 1
 
 
-#======================================
-# This method looks for changes to the fixed
-# configuration of the IOLab remote (for now just assumes 
-# you are using one remote)
+#=================================================================
+# This method looks for changes to the fixed configuration of the 
+# IOLab remote (for now just assumes you are using one remote)
 #
 def findLastConfig():
 
     # look for fixed config information
     if len(G.recDict[G.recType_getFixedConfig]) > 0:
-        fc = G.recDict[G.recType_getFixedConfig][-1][2]   # the latest fixed config
+        fc = G.recDict[G.recType_getFixedConfig][-1][4]   # the latest fixed config
     else:
         fc = 0                                            # or 0 if none found
 
@@ -265,7 +263,7 @@ def findLastConfig():
 
     # look for packet config information
     if len(G.recDict[G.recType_getPacketConfig]) > 0:
-        pc = G.recDict[G.recType_getPacketConfig][-1][2:] # the latest packet config
+        pc = G.recDict[G.recType_getPacketConfig][-1][4:-1] # the latest packet config
     else:
         pc = []                                           # or [] if none found
 
@@ -287,7 +285,7 @@ def findLastConfig():
         print "New sensor configuration " + str(sc)
 
 
-#======================================================================
+#===================================================================
 # Extracts the payload data from dataFromRemote records and calls 
 # extractSensorData() to extract raw sensor data from these 
 #
@@ -296,13 +294,13 @@ def decodeDataPayloads():
     if nRec > G.nextRecord:
         for n in range(G.nextRecord,nRec):
             r = G.recDict[G.recType_dataFromRemote][n]
-            nSens = r[4] # number of sensors in this data record
+            nSens = r[6] # number of sensors in this data record
 
             # this should be the same as the number expected for this config
             if nSens != len(G.lastSensorBytes):
                 print "sensors found "+str(nSens)+" expected "+str(len(G.lastSensorBytes))
 
-            i = 5        # pointer to info and data from first sensor
+            i = 7        # pointer to info and data from first sensor
             nSaved = 0   # the number of sensors we have saved data from
             while nSaved < nSens:
                 thisSensor = r[i] & 0x7F            # ID of the current sensor
@@ -317,8 +315,11 @@ def decodeDataPayloads():
                 if thisSensor in G.lastSensorBytes:
                     nValidBytes = r[i+1]
                     sensorBytes = r[i+2:i+2+nValidBytes]
+
+                    # this is where the the good stuff happens
                     extractSensorData(thisSensor,sensorBytes)
                 else:
+                    # if we ever get here we need to tell Mats there is a problem. 
                     print "Bailing out after finding wrong sensor: " +str(thisSensor) + " in " + str(r)
                     return
 
@@ -329,33 +330,54 @@ def decodeDataPayloads():
         G.nextRecord = nRec
 
 #======================================================================
-# Extracts the data from individual sensor sub-payloads.
-# Sensors extracted are marked with * (I'm still working on this)
+# Extracts the raw (uncalibrated) data from individual sensor sub-payloads. 
+# For details see 
 #
-#  * 'Accelerometer',
-#  * 'Magnetometer',
-#  * 'Gyroscope',
-#  - 'Barometer',
-#  * 'Microphone',
-#  * 'Light',
-#  * 'Force',
-#  * 'Wheel',
-#  - 'ECG3',
-#  - 'Battery',
-#  * 'HighGain',
-#  * 'Analog7',
-#  * 'Analog8',
-#  * 'Analog9',
-#  - 'Thermometer',
-#  - 'ECG9'
+# Inputs:
+#   sensor      the number of the sensor we are decoding as per sensorName()
+#   data        the data payload we are decoding
+#
+# Output:
+#   The information is placed in a global dictionary G.uncalDataDict
+#   (see pyolabGlobals.py)
 #
 def extractSensorData(sensor,data):
 
+    # The different code segments below deal with data from different sensors. 
+    # Only sensors marked with '*' in the list below are extracted so far
+    # (I'm still working on the sensors labeled with '-')
+    #
+    #  * 'Accelerometer',
+    #  * 'Magnetometer',
+    #  * 'Gyroscope',
+    #  - 'Barometer',
+    #  * 'Microphone',
+    #  * 'Light',
+    #  * 'Force',
+    #  * 'Wheel',
+    #  - 'ECG3',
+    #  - 'Battery',
+    #  * 'HighGain',
+    #  * 'Analog7',
+    #  * 'Analog8',
+    #  * 'Analog9',
+    #  - 'Thermometer',
+    #  - 'ECG9'
+    #
+    # Note also that the extracted data is uncalibrated. 
+    # 
+
+
+    #-----------------------
     # Accelerometer
+    # A 16 bit signed number for each of the three axes.
+    # Full scale depends on device settings. Default is 4g. 
+    # Calibration needed for both scale and offset. 
+    #
     if sensorName(sensor) == 'Accelerometer':
         # data comes in 6 byte blocks
         if(len(data)%6 > 0):
-            print "Accelerometer data not a multiple of 6"
+            print "Accelerometer data not a multiple of 6 bytes"
         else:
             nsets = len(data)/6
             for i in range(nsets):
@@ -363,13 +385,20 @@ def extractSensorData(sensor,data):
                 d01 = np.int16(d[0]<<8 | d[1])
                 d23 = np.int16(d[2]<<8 | d[3])
                 d45 = np.int16(d[4]<<8 | d[5])
-                G.sensorDataDict[sensor].append([-d23,d01,d45])
+                # the odd ordering & signs of the data below represent 
+                # the fact that the sensor is rotated on the PCB 
+                G.uncalDataDict[sensor].append([-d23,d01,d45])
 
+    #-----------------------
     # Magnetometer
+    # A 16 bit signed number for each of the three axes.
+    # Full scale depends on device settings.
+    # Calibration needed for both scale and offset. 
+    #
     if sensorName(sensor) == 'Magnetometer':
         # data comes in 6 byte blocks
         if(len(data)%6 > 0):
-            print "Magnetometer data not a multiple of 6"
+            print "Magnetometer data not a multiple of 6 bytes"
         else:
             nsets = len(data)/6
             for i in range(nsets):
@@ -377,13 +406,18 @@ def extractSensorData(sensor,data):
                 d01 = np.int16(d[0]<<8 | d[1])
                 d23 = np.int16(d[2]<<8 | d[3])
                 d45 = np.int16(d[4]<<8 | d[5])
-                G.sensorDataDict[sensor].append([-d01,-d23,-d45])
+                G.uncalDataDict[sensor].append([-d01,-d23,-d45])
 
+    #-----------------------
     # Gyroscope
+    # A 16 bit signed number for each of the three axes. Linear with omega.
+    # Full scale depends on device settings.
+    # Calibration needed for both scale and offset. 
+    #
     if sensorName(sensor) == 'Gyroscope':
         # data comes in 6 byte blocks
         if(len(data)%6 > 0):
-            print "Gyroscope data not a multiple of 6"
+            print "Gyroscope data not a multiple of 6 bytes"
         else:
             nsets = len(data)/6
             for i in range(nsets):
@@ -391,103 +425,143 @@ def extractSensorData(sensor,data):
                 d01 = np.int16(d[0]<<8 | d[1])
                 d23 = np.int16(d[2]<<8 | d[3])
                 d45 = np.int16(d[4]<<8 | d[5])
-                G.sensorDataDict[sensor].append([-d23,d01,d45])
+                # the odd ordering & signs of the data below represent 
+                # the fact that the sensor is rotated on the PCB 
+                G.uncalDataDict[sensor].append([-d23,d01,d45])
 
-    # Microphone
+    #-----------------------
+    # Microphone. 
+    # Linear with intensity (I assume). Returns 16 bit unsigned number.  
+    #
     if sensorName(sensor) == 'Microphone':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Microphone data not a multiple of 2"
+            print "Microphone data not a multiple of 2 bytes"
         else:
             nsets = len(data)/2
             for i in range(nsets):
                 d = data[i*2:i*2+2]
                 d01 = np.uint16(d[0]<<8 | d[1])
-                G.sensorDataDict[sensor].append(d01)
+                G.uncalDataDict[sensor].append(d01)
 
+    #-----------------------
     # Light
+    # Linear with intensity (I assume). Returns 16 bit unsigned number.   
+    #
     if sensorName(sensor) == 'Light':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Light data not a multiple of 2"
+            print "Light data not a multiple of 2 bytes"
         else:
             nsets = len(data)/2
             for i in range(nsets):
                 d = data[i*2:i*2+2]
                 d01 = np.uint16(d[0]<<8 | d[1])
-                G.sensorDataDict[sensor].append(d01)
+                G.uncalDataDict[sensor].append(d01)
 
+    #-----------------------
     # Force
+    # A 16 bit signed number derived by measuring the B-field of a magnet 
+    # that moves in response to an applied force. Linear with force. 
+    # Calibration needed for both scale and offset. 
+    #
     if sensorName(sensor) == 'Force':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Force data not a multiple of 2"
+            print "Force data not a multiple of 2 bytes"
         else:
             nsets = len(data)/2
             for i in range(nsets):
                 d = data[i*2:i*2+2]
                 d01 = np.int16(d[0]<<8 | d[1])
-                G.sensorDataDict[sensor].append(d01)
+                G.uncalDataDict[sensor].append(d01)
 
+    #-----------------------
     # Wheel
+    # A 16 bit signed number. Each measurement is the change of the wheels position 
+    # in 1mm increments since the last measurement. Measurement interval is 1/100 sec.  
+    #
     if sensorName(sensor) == 'Wheel':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Wheel data not a multiple of 2"
+            print "Wheel data not a multiple of 2 bytes"
         else:
             nsets = len(data)/2
             for i in range(nsets):
                 d = data[i*2:i*2+2]
-                d01 = np.int16(d[0]<<8 | d[1])
-                G.sensorDataDict[sensor].append(d01)
+                d01 = np.int16(d[0]<<8 | d[1]) # dr
+                G.uncalDataDict[sensor].append(d01)
 
+    #-----------------------
     # HighGain
+    # G+/G- feeds DC coupled differential op-amp w/ gain 1400
+    # Op-amp output feeds internal 12 bit ADC (raw ADC values [0 - 4095])
+    # Full scale count is +- 3V/2 = +- 1500 mV
+    # Zero offset 0x7FF (half full scale)
+    # Full scale deflection = 1500mV/1400 = 1.07 mV
+    # counts per volt = 2048 * 1400 / 1500
+    # 
     if sensorName(sensor) == 'HighGain':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "HighGain data not a multiple of 2"
+            print "HighGain data not a multiple of 2 bytes"
         else:
             nsets = len(data)/2
             for i in range(nsets):
                 d = data[i*2:i*2+2]
                 d01 = np.uint16(d[0]<<8 | d[1])
-                G.sensorDataDict[sensor].append(d01)
+                G.uncalDataDict[sensor].append(d01)
 
+    #-----------------------
     # Analog7
+    # Feeds internal 12 bit ADC (raw ADC values [0 - 4095])
+    # Full scale corresponds to either 3.0V or 3.3V depending on configuration
+    # (see configName(); if configuration name contains '3V3' reference is 3.3V)
+    #
     if sensorName(sensor) == 'Analog7':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Analog7 data not a multiple of 2"
+            print "Analog7 data not a multiple of 2 bytes"
         else:
             nsets = len(data)/2
             for i in range(nsets):
                 d = data[i*2:i*2+2]
                 d01 = np.uint16(d[0]<<8 | d[1])
-                G.sensorDataDict[sensor].append(d01)
+                G.uncalDataDict[sensor].append(d01)
 
+    #-----------------------
     # Analog8
+    # Feeds internal 12 bit ADC (raw ADC values [0 - 4095])
+    # Full scale corresponds to either 3.0V or 3.3V depending on configuration
+    # (see configName(); if configuration name contains '3V3' reference is 3.3V)
+    #
     if sensorName(sensor) == 'Analog8':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Analog8 data not a multiple of 2"
+            print "Analog8 data not a multiple of 2 bytes"
         else:
             nsets = len(data)/2
             for i in range(nsets):
                 d = data[i*2:i*2+2]
                 d01 = np.uint16(d[0]<<8 | d[1])
-                G.sensorDataDict[sensor].append(d01)
+                G.uncalDataDict[sensor].append(d01)
 
+    #-----------------------
     # Analog9
+    # Feeds internal 12 bit ADC (raw ADC values [0 - 4095])
+    # Full scale corresponds to either 3.0V or 3.3V depending on configuration
+    # (see configName(); if configuration name contains '3V3' reference is 3.3V)
+    #
     if sensorName(sensor) == 'Analog9':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Analog9 data not a multiple of 2"
+            print "Analog9 data not a multiple of 2 bytes"
         else:
             nsets = len(data)/2
             for i in range(nsets):
                 d = data[i*2:i*2+2]
                 d01 = np.uint16(d[0]<<8 | d[1])
-                G.sensorDataDict[sensor].append(d01)
+                G.uncalDataDict[sensor].append(d01)
 
 
 

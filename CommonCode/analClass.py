@@ -7,21 +7,21 @@ analysis code which user methods to call during the analysis.
 The class is instantiated in the "main" routine of your code 
 (which is called userExample.py in this example), thus:
 
-    anal = A(analUserStart, analUserEnd, analUserLoop)
+    analClass = AnalysisClass(analUserStart, analUserEnd, analUserLoop)
 
 where analUserStart(), analUserEnd(), analUserLoop() are defined by you,
 and currently have examples living in "userMethods.py"
 
 """
 
-class A(object):
-    a = ''
+class AnalysisClass(object):
+    handle = ''
     def __init__(self,an1,an2,an3):
-        print "creating instance of A"
+        print "creating instance of AnalysisClass"
         self.analStart = an1
         self.analEnd   = an2
         self.analLoop  = an3
-        A.a = self
+        AnalysisClass.handle = self
 
 
 
