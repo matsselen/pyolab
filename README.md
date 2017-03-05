@@ -2,13 +2,11 @@
 
 ## Overview
 
-The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system, including examples of configuring the system and acquiring data. 
+The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system, including examples of configuring the system and acquiring data. It contains a folder containing the PyOLab library code (__CommonCode__), tow folders containing example user code (__HelloWorld__ and __Example__)
 
-The are three main folders in this archive: __CommonCode__, __Example__, and __Documentation__. The user code in the __Example__ folder calls the PyOLab methods in the __CommonCode__ folder, and useful notes and information is placed in the __Documentation__ folder. 
+It all works, but you should be warned that the author is a phycisist, not a programmer, and that everyhting is still evolving. 
 
-It all works, but you sholud be warned that the author is a phycisict, not a programmer, and that everyhting is still evolving. 
-
-## CommonCode
+## CommonCode 
 
 This folder contains a collection of methods to allow the user to open a serial port, send commands to the IOLab hardware, and receive both status information and asynchronous data from the hardware:
 
@@ -25,7 +23,18 @@ Used to separate the user code from the analysis code (basically a naive callbac
 
 ---
 
-## Example
+## HelloWorld 
+
+This folder contains the simplest possible example to talk to the system using some of the 
+methods CommonCode:
+
+* __userExample.py__  
+Example of some _main()_ code that opens the serial port, asks the 
+dongle what its status is, receives the answer, and quits.
+
+---
+
+## Example 
 
 This folder contains some example user code that imports and calls the PyOLab methods in CommonCode:
 
