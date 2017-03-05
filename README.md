@@ -2,7 +2,7 @@
 
 ## Overview
 
-The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system. This archive contains a folder containing the PyOLab library code (__PyOLabCode__), two folders containing example user code (__HelloWorld__ and __DaqExample__), and a folder containing Documentation (__Documentation__). 
+This provide a suite of Python (2.7) routines that gives users complete control of an IOLab system. This archive contains a folder containing the PyOLab library code (__PyOLabCode__), two folders containing example user code (__HelloWorld__ and __DaqExample__), and a folder containing Documentation (__Documentation__). 
 
 If you are new to Python you can get a great free release from [Anaconda](https://www.continuum.io/downloads). You will also need to get [PySerial](http://pyserial.readthedocs.io/en/latest/) (more info below). There is lots of online support and documentation for [learning Python](https://www.python.org/about/gettingstarted/). 
 
