@@ -16,7 +16,7 @@ This folder contains a collection of methods to allow the user to open a serial 
 Communication with the IOLab hardware via the USB virtual com port. 
 * __setupMethods.py__  
 Focused on setting up the IOLab system, initializing the anynchronous threads that 
-fetch and analyze data, calling code to analyze these data, and shutting things down when finished.
+fetch and unpack and decode data, calling user code to analyze these data, and shutting things down when finished.
 * __dataMethods.py__  
 Focused on decoding, organizing, and analyzing the data received from the IOLab system.
 * __iolabInfo.py__  
