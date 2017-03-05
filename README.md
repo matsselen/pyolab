@@ -2,11 +2,11 @@
 
 ## Overview
 
-This provide a suite of Python (2.7) routines that gives users complete control of an IOLab system. This archive contains a folder containing the PyOLab library code (__PyOLabCode__), two folders containing example user code (__HelloWorld__ and __DaqExample__), and a folder containing Documentation (__Documentation__). 
+PyOLab is a suite of Python (2.7) routines that gives users complete control of an IOLab system. The archive contains a folder containing the PyOLab library code (__PyOLabCode__), two folders containing example user code (__HelloWorld__ and __DaqExample__), and a folder containing Documentation referred to in the code (__Documentation__). 
 
-If you are new to Python you can get a great free release from [Anaconda](https://www.continuum.io/downloads). You will also need to get [PySerial](http://pyserial.readthedocs.io/en/latest/) (more info below). There is plenty of online support and documentation for [learning Python](https://www.python.org/about/gettingstarted/). 
+If you are new to Python you can get a great free release from [Anaconda](https://www.continuum.io/downloads). You will also need to get [PySerial](http://pyserial.readthedocs.io/en/latest/) (more info below). There is plenty of on-line support and documentation for [learning Python](https://www.python.org/about/gettingstarted/). 
 
-Use at your own risk in accordance with Open Source BSD-3-Clause license. 
+Use this code at your own risk in accordance with Open Source BSD-3-Clause license. 
 
 ## PyOLabCode 
 
