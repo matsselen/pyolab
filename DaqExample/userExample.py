@@ -23,7 +23,15 @@ def main():
     #=========================================
     # This is the main code. All it does is open the serial port,
     # launch the data fetching and data analysis threads, and then
-    # go into a loop waiting for user input
+    # go into a loop waiting for user input. 
+    # Suggested user inputs (without quotes):
+    # '=38'     (sets configuration 38, which includes a lot of sensors)
+    # 'a'       (starts the data acquisition)
+    # 's'       (stops the data acquisition)
+    # 'x'       (exits the program)
+    #
+    # See comments in userMethods.py for more details. 
+    #
     
     # This causes the raw data to be dumped to a file called "data.txt" in
     # the working directory
@@ -48,7 +56,7 @@ def main():
     
         # ask the user for input
         print "\nEnter command:"
-        print "   =n  to set remote configuration to n"
+        print "   =n  to set remote configuration to n (for example =38)"
         print "   a   to run acquisition"
         print "   s   to stop acquisition"
         print "   x   to exit\n"
@@ -78,16 +86,16 @@ def main():
                 n=int(command[1:])
                 print "Calling setFixedConfig("+str(n)+")" 
                 print configName(n)
-                # set the fixed configuration 
-                setFixedConfig(G.serialPort,n)
+                # set the fixed configuration for remote 1 
+                setFixedConfig(G.serialPort,n,1)
     
-                # ask the system to tell us about its configuration 
+                # ask remote 1 to tell us about its configuration 
                 print "Calling getFixedConfig()" 
-                getFixedConfig(G.serialPort)
+                getFixedConfig(G.serialPort,1)
     
-                # ask the system to tell us about its data packet configuration
+                # ask remote 1 to tell us about its data packet configuration
                 print "Calling getPacketConfig()" 
-                getPacketConfig(G.serialPort)
+                getPacketConfig(G.serialPort,1)
 
 
 #--------------------------

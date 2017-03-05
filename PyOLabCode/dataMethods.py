@@ -128,8 +128,8 @@ def decodeDataPayloads():
                 recSequence = r[2]                  # byte incremented every record
 
                 # the first couple if records may have the overflow bit set
-                if sensorOverflow:
-                    print "overflow on recSequence " +str(recSequence)+" sensor "+str(thisSensor)
+                #if sensorOverflow:
+                #    print "overflow on recSequence " +str(recSequence)+" sensor "+str(thisSensor)
 
                 # make sure thisSensor is on the list of expected sensors for this config
                 if thisSensor in G.lastSensorBytes:
@@ -170,7 +170,7 @@ def extractSensorData(sensor,data):
     #  * 'Accelerometer',
     #  * 'Magnetometer',
     #  * 'Gyroscope',
-    #  - 'Barometer',
+    #  * 'Barometer',
     #  * 'Microphone',
     #  * 'Light',
     #  * 'Force',
@@ -181,11 +181,20 @@ def extractSensorData(sensor,data):
     #  * 'Analog7',
     #  * 'Analog8',
     #  * 'Analog9',
-    #  - 'Thermometer',
+    #  * 'Thermometer',
     #  - 'ECG9'
     #
     # Note also that the extracted data is uncalibrated. 
+    # Examples of applying calibration constants cane be found 
+    # in Documentation/old_csharp_code.cs. 
+    #
+    # For some sensors these calibration constants are
+    # known (Analog and HighGain for example), for some they needs to be extracted 
+    # from the system with a getCalibration() call (barometer for example), and for others
+    # they need to be measured by the user (force probe & magnetometer for example).
     # 
+    # The code below does not apply any calibration - it just extracts the uncalibrated data.
+    #
 
 
     #-----------------------
@@ -383,6 +392,62 @@ def extractSensorData(sensor,data):
                 d01 = np.uint16(d[0]<<8 | d[1])
                 G.uncalDataDict[sensor].append(d01)
 
+
+    #-----------------------
+    # Barometer
+    # The uncalibrated data read from the Barometer chip represents both
+    # pressure and temperature, but calibration is needed in order to turn
+    # these into useful numbers. The calibration constants are programmed into
+    # the barometer chip itself and can be extracted by sending the system a 
+    # "getCalibration()" request with the appropriate parameters. 
+    # (see IOLab_usb_interface_specs.pdf and IOLab_data_specs.pdf in Documentation/)
+    #
+    # from Mats old code (where i1 == d01 and i2 == d23 below):
+    #            // keep only the lowest 10 bits in each
+    #            i1 = (i1 >> 6) & (uint)0x3FF;
+    #            i2 = (i2 >> 6) & (uint)0x3FF;
+    #
+    #            // Apply calibration
+    #            s.cal.P = Pressure(i1, i2);
+    # 
+    # and see CalculateCalibrationConstants() and Pressure() in Documentation/old_csharp_code.cs
+    #
+    if sensorName(sensor) == 'Barometer':
+        # data comes in 4 byte blocks
+        if(len(data)%4 > 0):
+            print "Barometer data not a multiple of 4 bytes"
+        else:
+            nsets = len(data)/4
+            for i in range(nsets):
+                d = data[i*4:i*4+4]
+                d01 = np.uint16(d[0]<<8 | d[1])
+                d23 = np.uint16(d[2]<<8 | d[3])
+
+                G.uncalDataDict[sensor].append([d01,d23])
+
+
+    #-----------------------
+    # Thermometer
+    # The uncalibrated Thermometer data is oversampled 
+    # (it needs to be divided by 400, which is done in this code), 
+    # and then the result needs to be turned into a temperature by a linear function 
+    # for which we know the slope and intercept:
+    # cal = 30 + (raw - calAt30degrees)*(85-30)/(calAt85degrees-calAt30degrees)
+    #   where calAt30degrees = 2041 and calAt85degrees = 2426
+    # caution - these values are from some older code of Mats and should be 
+    # suspect until verified. 
+    #
+    if sensorName(sensor) == 'Thermometer':
+        # data comes in 4 byte blocks
+        if(len(data)%4 > 0):
+            print "Thermometer data not a multiple of 4 bytes"
+        else:
+            nsets = len(data)/4
+            for i in range(nsets):
+                d = data[i*4:i*4+4]
+                d0123 = np.uint( d[0]<<24 | d[1]<<16 | d[2]<<8 | d[3] )
+
+                G.uncalDataDict[sensor].append(d0123)
 
 
 

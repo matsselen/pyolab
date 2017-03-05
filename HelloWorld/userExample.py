@@ -52,8 +52,6 @@ def main():
         print "Processed data list from serial port:"
         print dList
 
-        print "Powering down the iOLab remote\n"
-        powerDown(G.serialPort)
         
 #--------------------------
 # run the above main() code 

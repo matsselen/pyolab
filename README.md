@@ -4,7 +4,7 @@
 
 The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system. This archive contains a folder containing the PyOLab library code (__PyOLabCode__), two folders containing example user code (__HelloWorld__ and __DaqExample__), and a folder containing Documentation (__Documentation__). 
 
-It all works, but you should be warned that the author is a phycisist, not a programmer, and that everyhting is still evolving. 
+If you are new to Python you can get a great free release from [Anaconda](https://www.continuum.io/downloads). You will also need to get PySerial (more info below). There is lots of online support and documentation for [learning Python](https://www.python.org/about/gettingstarted/). 
 
 ## PyOLabCode 
 

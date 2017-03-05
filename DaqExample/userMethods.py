@@ -18,6 +18,10 @@ so that users can create their own analysis jobs.
 These user methods are a handy way to try and isolate the user code from the 
 library code.  
 
+In this particular example the user code print out any accelerometer data that 
+is received from the remote, and at the end of the job it printe a summary of
+the records and data that were received from the system.
+
 """
 
 #======================================================================
@@ -26,6 +30,11 @@ library code.
 def analUserStart():
     print "in analUserStart()"
 
+    U.sensNum = 1
+    print "...will dump data from " + sensorName(U.sensNum)
+
+    print "\n MAKE SURE YOUR REMOTE IS TURNED ON \n"
+
 #======================================================================
 # User code called at the end. 
 #
@@ -33,12 +42,14 @@ def analUserEnd():
     print "in analUserEnd()"
     print "analUserLoop() was called " + str(U.analUserCalls) + " times"
 
+    # print information about the records that were received
     for rectype in G.recTypeDict:
         name = G.recTypeDict[rectype]
         count = len(G.recDict[rectype])
         print "found "+str(count) + " records of type " + name
     print " "
 
+    # print information about the sensor data that was received
     for sensor in G.uncalDataDict:
         name = sensorName(sensor)
         count = len(G.uncalDataDict[sensor])
@@ -50,6 +61,20 @@ def analUserEnd():
 #
 def analUserLoop():
     U.analUserCalls += 1
+
+    # print any new accelerometer data to teh screen
+    # the sys.stdout.write and .flush makes it appear on the same line
+    #
+    nData = len(G.uncalDataDict[U.sensNum])
+    if nData > U.lastDataPrinted:
+        for i in range(U.lastDataPrinted,nData):
+            #print G.uncalDataDict[U.sensNum][i]
+            sys.stdout.write('%s\r' % '                                  ') # clear previous line
+            sys.stdout.write('%s\r' % str(G.uncalDataDict[U.sensNum][i]))   # print uncalibrated accel data
+            sys.stdout.flush()
+
+        U.lastDataPrinted = nData
+
 
     
 

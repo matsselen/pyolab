@@ -50,6 +50,10 @@ class G(object):
     #   0x28 =  40 (response to getPacketConfig() )
     #   Record: 0x02 : 0x28 : Nbytes : Remote : Nsens : sens1 : len1 :...: sensN : lenN : 0xa
     #
+    recType_getCalibration = 0x29
+    #   0x29 =  41 (response to getCalibration() )
+    #   Record: 0x02 : 0x29 : Nbytes : Remote : sensor : Nbytes : cal1 :...: calN : 0xa
+    #
     recType_getDongleStatus = 0x14
     #   0x14 =  19 (response to getDongleStatus() )    
     #   Record: 0x02 : 0x14 : 0x06 : Dongle FW (2) : Mode : ID (3) : 0xa
@@ -70,6 +74,7 @@ class G(object):
     recTypeList = [recType_dataFromRemote, 
                    recType_getFixedConfig, 
                    recType_getPacketConfig, 
+                   recType_getCalibration,
                    recType_rfStatusFromRemote, 
                    recType_getDongleStatus, 
                    recType_getRemoteStatus, 
@@ -78,14 +83,15 @@ class G(object):
                    ]
 
     # this is a dictionary of record type names keyed by record type number
-    recTypeDict = {recType_dataFromRemote : 'dataFromRemote',
-                   recType_getFixedConfig : 'getFixedConfig',
-                   recType_getPacketConfig : 'getPacketConfig',
-                   recType_rfStatusFromRemote : 'rfStatusFromRemote',
-                   recType_getDongleStatus : 'getDongleStatus',
-                   recType_getRemoteStatus : 'getRemoteStatus',
-                   recType_ACK : 'ACK',
-                   recType_NACK : 'NACK'
+    recTypeDict = {recType_dataFromRemote       : 'recType_dataFromRemote',
+                   recType_getFixedConfig       : 'recType_getFixedConfig',
+                   recType_getPacketConfig      : 'recType_getPacketConfig',
+                   recType_getCalibration       : 'recType_getCalibration',
+                   recType_rfStatusFromRemote   : 'recType_rfStatusFromRemote',
+                   recType_getDongleStatus      : 'recType_getDongleStatus',
+                   recType_getRemoteStatus      : 'recType_getRemoteStatus',
+                   recType_ACK                  : 'recType_ACK',
+                   recType_NACK                 : 'recType_NACK'
                    }
 
     #=======================================================================

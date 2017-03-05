@@ -63,7 +63,7 @@ def shutItDown():
     print "all threads finished"
 
     print "power down remote 1"
-    powerDown(G.serialPort)
+    powerDown(G.serialPort,1)
 
 
 #=========================================
