@@ -48,8 +48,8 @@ library to implement a multi-threaded data acquisition system:
 Example of some _main()_ code that opens the serial port, launches data fetching and data analysis threads, 
 and then waits for user input.
 * __userMethods.py__  
-Examples of user routines that are bound to the analysis thread in _main()_ and are called by the system during 
-analysis to expose the user to acquired data. In this example the user code print out any accelerometer data that 
+Examples of user routines that are called by the system during data 
+analysis to expose the user to the acquired data. In this example the user code prints out any accelerometer data that 
 is received from the remote, and at the end of the job it prints a summary of the records and data that were received from the system.   
 * __userGlobals.py__  
 Example of some global user variables used by the user methods (may not be needed by your code). 
