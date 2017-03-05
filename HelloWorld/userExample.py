@@ -4,7 +4,7 @@ import sys
 import time
 
 # local common code
-sys.path.append('../CommonCode/')
+sys.path.append('../PyOLabCode/')
 from commMethods import *
 
 """
@@ -41,9 +41,17 @@ def main():
             raw = G.serialPort.read(nwait)
             rawList.append(raw)
     
-        print "Resulting raw hex data string from serial port:"
+        print "Raw hex data string from serial port:"
         print rawList
-    
+ 
+        # Take the raw serial data and turns in into a list of bytes. 
+        dList = []
+        for i in range(0,len(rawList[0])):
+            dList.append(ord(rawList[0][i]))   
+
+        print "Processed data list from serial port:"
+        print dList
+
         print "Powering down the iOLab remote\n"
         powerDown(G.serialPort)
         

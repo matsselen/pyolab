@@ -4,11 +4,11 @@ import sys
 import time
 
 # local common code
-sys.path.append('../CommonCode/')
+sys.path.append('../PyOLabCode/')
 from analClass import AnalysisClass
 from pyolabGlobals import G
 from commMethods import *
-from dataMethods import *
+from setupMethods import *
 
 # local user code
 from userMethods import *

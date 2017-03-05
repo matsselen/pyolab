@@ -2,7 +2,7 @@
 
 ## Overview
 
-The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system. This archive contains a folder containing the PyOLab library code (__PyOLabCode__), two folders containing example user code (__HelloWorld__ and __Example__), and a folder containing Documentation (__Documentation__). 
+The point of this project is to provide a suite of python routines that gives users complete control of an IOLab system. This archive contains a folder containing the PyOLab library code (__PyOLabCode__), two folders containing example user code (__HelloWorld__ and __DaqExample__), and a folder containing Documentation (__Documentation__). 
 
 It all works, but you should be warned that the author is a phycisist, not a programmer, and that everyhting is still evolving. 
 
@@ -12,8 +12,11 @@ This folder contains a collection of methods to allow the user to open a serial 
 
 * __commMethods.py__  
 Communication with the IOLab hardware via the USB virtual com port. 
+* __setupMethods.py__  
+Focused on setting up the IOLab system, initializing the 
+threads to fetch and analyze data, and calling code to analyze these data..
 * __dataMethods.py__  
-Focused on decoding and organizing the data received from the IOLab system.
+Focused on decoding, organizing, and analyzing the data received from the IOLab system.
 * __iolabInfo.py__  
 Code to provide callable information about the IOLab hardware & firmware (basically documentation). 
 * __pyolabGlobals.py__  
@@ -34,9 +37,10 @@ dongle what its status is, receives the answer, and quits.
 
 ---
 
-## Example 
+## DaqExample 
 
-This folder contains a slightly more sophisticated user code example using the PyOLab library:
+This folder contains a slightly more sophisticated user code example that uses the PyOLab 
+library to implement a multi-threaded data acquisition system:
 
 * __userExample.py__  
 Example of some _main()_ code that opens the serial port, launches data fetching and data analysis threads, 

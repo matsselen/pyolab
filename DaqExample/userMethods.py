@@ -4,7 +4,7 @@ import time
 
 
 # local common code
-sys.path.append('../CommonCode/')
+sys.path.append('../PyOLabCode/')
 from pyolabGlobals import G
 from dataMethods import *
 
