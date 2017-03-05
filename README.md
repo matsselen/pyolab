@@ -6,6 +6,8 @@ This provide a suite of Python (2.7) routines that gives users complete control 
 
 If you are new to Python you can get a great free release from [Anaconda](https://www.continuum.io/downloads). You will also need to get [PySerial](http://pyserial.readthedocs.io/en/latest/) (more info below). There is plenty of online support and documentation for [learning Python](https://www.python.org/about/gettingstarted/). 
 
+This code is for geeks like me and is not guaranteed in any way. Use at your own risk. 
+
 ## PyOLabCode 
 
 This folder contains a collection of methods to allow the user to open a serial port, send commands to the IOLab hardware, and receive both status information and asynchronous data from the hardware:
