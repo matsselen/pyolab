@@ -102,6 +102,15 @@ def getPacketConfig(s, remote):
     time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 
 #======================================
+# Ask remote to set the current sensor configuration to "config". 
+# The response will be an ACK packet if successful, or NACK packet if not. 
+def setFixedConfig(s,config,remote):
+
+    command = [0x02, 0x26, 0x02, remote, config, 0x0A] 
+    s.write(bytearray(command))
+    time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
+
+#======================================
 # Ask remote to send a data packet of type 0x27 telling us the current sensor configuration 
 def getFixedConfig(s, remote):
 
@@ -118,11 +127,15 @@ def getCalibration(s, sensor, remote):
     time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 
 #======================================
-# Ask remote to set the current sensor configuration to "config". 
+# Sends an output configuration record to the selected remote. 
 # The response will be an ACK packet if successful, or NACK packet if not. 
-def setFixedConfig(s,config,remote):
+def setOutputConfig(s,idValueList,remote):
 
-    command = [0x02, 0x26, 0x02, remote, config, 0x0A] 
+    nPairs  = len(idValueList)/2 
+    payload = [remote,npairs]+idValueList
+    nBytes  = len(payload)
+    command = [0x02, 0x24, nBytes] + payload + [0x0A] 
+
     s.write(bytearray(command))
     time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 
