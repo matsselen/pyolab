@@ -20,6 +20,24 @@ from the IOLab system.
 
 """
 
+#=================================
+# returns the n'th record received
+#
+def getAllRec(n):
+    if n < len(G.allRecList):
+        return G.recDict[G.allRecList[n][0]][G.allRecList[n][1]]
+    else:
+        return []
+
+#=========================================
+# returns the n'th command record received
+#
+def getComRec(n):
+    if n < len(G.comRecList):
+        return G.recDict[G.comRecList[n][0]][G.comRecList[n][1]]
+    else:
+        return []
+
 
 #===========================================================================================
 # This method spins through the raw data array and finds the actual data packet records received 
@@ -49,7 +67,15 @@ def findRecords():
                         if G.dataList[i+3+ndata] == 0xa:
                             # if SOP, BC, and EOP are all consistent then save the record
                             rec = G.dataList[i:i+4+ndata]
-                            # add record to the appropriate list
+                            index = len(G.recDict[recType])
+
+                            # all records: [recType,index] points into recDict[recType][index]
+                            G.allRecList.append([recType,index])
+                            if recType != G.recType_dataFromRemote:
+                                # command records: [recType,index] points into recDict[recType][index]
+                                G.comRecList.append([recType,index])
+
+                            # add record to the appropriate list in the record dictionary
                             G.recDict[recType].append(rec)
                             # if the thing we just received was a NACK it means a command was
                             # not properly serviced, so we should tell someone

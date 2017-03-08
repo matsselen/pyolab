@@ -105,7 +105,7 @@ class G(object):
     #=======================================================================
     # The following dictionaries are basically the key outputs of the system 
 
-    recDict   = {}  
+    recDict = {}  
     # Dictionary that stores received records, keyed by record type as listed above
     # (for example, asynchronous data records from the remote have type 0x41 =  65)
     # Each record is stored as a list, starting with SOP = 0x2 and ending with EOP = 0xa.
@@ -113,6 +113,13 @@ class G(object):
     # Find detailed documentation at Documentation/IOLab_usb_interface_specs.pdf
     #
 
+    allRecList = []
+    # list of all records received in order. Each entry is a list [recType, index], 
+    # so that the record can be found at recDict[recType][index] 
+
+    comRecList = []
+    # list of all command received in order. Each entry is a list [recType, index], 
+    # so that the record can be found at recDict[recType][index] 
 
     uncalDataDict = {}
     # Dictionary that stores uncalibrated data from sensors, keyed by sensor number. 
