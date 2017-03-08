@@ -30,11 +30,20 @@ def getAllRec(n):
         return []
 
 #=========================================
+# returns the n'th data record received
+#
+def getDataRec(n):
+    if n < len(G.dataRecList):
+        return G.recDict[G.dataRecList[n][0]][G.dataRecList[n][1]]
+    else:
+        return []
+
+#=========================================
 # returns the n'th command record received
 #
-def getComRec(n):
-    if n < len(G.comRecList):
-        return G.recDict[G.comRecList[n][0]][G.comRecList[n][1]]
+def getCommRec(n):
+    if n < len(G.commRecList):
+        return G.recDict[G.commRecList[n][0]][G.commRecList[n][1]]
     else:
         return []
 
@@ -71,9 +80,12 @@ def findRecords():
 
                             # all records: [recType,index] points into recDict[recType][index]
                             G.allRecList.append([recType,index])
-                            if recType != G.recType_dataFromRemote:
+                            if recType == G.recType_dataFromRemote:
+                                # data records: [recType,index] points into recDict[recType][index]
+                                G.dataRecList.append([recType,index])
+                            else:
                                 # command records: [recType,index] points into recDict[recType][index]
-                                G.comRecList.append([recType,index])
+                                G.commRecList.append([recType,index])
 
                             # add record to the appropriate list in the record dictionary
                             G.recDict[recType].append(rec)

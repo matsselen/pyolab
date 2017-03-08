@@ -103,7 +103,8 @@ class G(object):
                    }
 
     #=======================================================================
-    # The following dictionaries are basically the key outputs of the system 
+    # The following dictionaries are basically the key outputs of the system, and provide
+    # various ways for the user to extract these data.
 
     recDict = {}  
     # Dictionary that stores received records, keyed by record type as listed above
@@ -111,14 +112,17 @@ class G(object):
     # Each record is stored as a list, starting with SOP = 0x2 and ending with EOP = 0xa.
     # See Documentation/record_example_1.pdf for some examples.
     # Find detailed documentation at Documentation/IOLab_usb_interface_specs.pdf
-    #
 
     allRecList = []
     # list of all records received in order. Each entry is a list [recType, index], 
     # so that the record can be found at recDict[recType][index] 
 
-    comRecList = []
-    # list of all command received in order. Each entry is a list [recType, index], 
+    commRecList = []
+    # list of all command records received in order. Each entry is a list [recType, index], 
+    # so that the record can be found at recDict[recType][index] 
+
+    dataRecList = []
+    # list of all data records received in order. Each entry is a list [recType, index], 
     # so that the record can be found at recDict[recType][index] 
 
     uncalDataDict = {}
@@ -128,7 +132,6 @@ class G(object):
     # values for all 3 axes. (If you want to know details have a look at the Indesign documents 
     # See Documentation/record_example_2.pdf for some examples.
     # Find detailed documentation at Documentation/IOLab_data_specs.pdf
-    #
 
 
 
