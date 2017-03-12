@@ -41,14 +41,45 @@ class G(object):
     lastSensorBytes  = {}       # dictionary of maximum byte-counts keyed by sensor
 
     
-    #  Here is a description of the various record types along with their format.
+    #  Here is a description of the various commands and record types.
     #  These are described in detail in the USB Interface Specification document 
     #  http://www.iolab.science/Documents/IOLab_Expert_Docs/IOLab_usb_interface_specs.pdf
+    #
+    # dictionary of commands supported so far
+    cmdDict = {
+        'getDongleStatus' : 0x14,  # [0x02, 0x14, 0x00, 0x0A]
+        'startData'       : 0x20,  # [0x02, 0x20, 0x00, 0x0A]
+        'stopData'        : 0x21,  # [0x02, 0x21, 0x00, 0x0A]
+        'setSensorConfig' : 0x22,  # [0x02, 0x22, nBytes, payload, 0x0A]
+        'getSensorConfig' : 0x23,  # [0x02, 0x23, 0x01, remote, 0x0A] 
+        'setOutputConfig' : 0x24,  # [0x02, 0x24, nBytes, payload, 0x0A]
+        'getOutputConfig' : 0x25,  # [0x02, 0x25, 0x01, remote, 0x0A]
+        'setFixedConfig'  : 0x26,  # [0x02, 0x26, 0x02, remote, config, 0x0A]
+        'getFixedConfig'  : 0x27,  # [0x02, 0x27, 0x01, remote, 0x0A]
+        'getPacketConfig' : 0x28,  # [0x02, 0x28, 0x01, remote, 0x0A] 
+        'getCalibration'  : 0x29,  # [0x02, 0x29, 0x02, remote, sensor, 0x0A] 
+        'getRemoteStatus' : 0x2A,  # [0x02, 0x2A, 0x01, remote, 0x0A] 
+        'powerDown'       : 0x2B   # [0x02, 0x2B, 0x01, remote, 0x0A] 
+        }
+
+    # records that are received from the system are of these types
     #
     recType_ACK = 0xaa
     #   0xaa = 170 (ACK)
     recType_NACK = 0xbb
     #   0xbb = 187 (NACK)
+    #
+    recType_getDongleStatus = 0x14
+    #   0x14 =  19 (response to getDongleStatus() )    
+    #   Record: 0x02 : 0x14 : 0x06 : Dongle FW (2) : Mode : ID (3) : 0xa
+    #
+    recType_getSensorConfig = 0x23
+    #   0x23 =  35 (response to getSensorConfig() )
+    #   Record: 0x02 : 0x23 : Nbytes : Remote : NsensKeyPairs : ..Pairs.. : 0xa
+    #
+    recType_getOutputConfig = 0x25
+    #   0x25 =  37 (response to getOutputConfig() )
+    #   Record: 0x02 : 0x25 : Nbytes : Remote : NoutputKeyPairs : ..Pairs.. : 0xa
     #
     recType_getFixedConfig = 0x27
     #   0x27 =  39 (response to getFixedConfig() )
@@ -62,10 +93,6 @@ class G(object):
     #   0x29 =  41 (response to getCalibration() )
     #   Record: 0x02 : 0x29 : Nbytes : Remote : sensor : Nbytes : cal1 :...: calN : 0xa
     #
-    recType_getDongleStatus = 0x14
-    #   0x14 =  19 (response to getDongleStatus() )    
-    #   Record: 0x02 : 0x14 : 0x06 : Dongle FW (2) : Mode : ID (3) : 0xa
-    #
     recType_getRemoteStatus = 0x2a
     #   0x2a =  42 (response to getRemoteStatus() )
     #   Record: 0x02 : 0x2a : 0x07 : Remote : Sens FW (2) : RF FW (2) : Battery (2) : 0xa
@@ -77,27 +104,31 @@ class G(object):
     recType_dataFromRemote = 0x41
     #   0x41 =  65 (asynchronous data records sent during actual data acquisition)
     #   Record: 0x02 : 0x41 : Nbytes : Remote : Frame# : RFinfo : Data Packet : RSSI : 0xa
-  
+
     # this is a list of the record types that findRecords() will look for
-    recTypeList = [recType_dataFromRemote, 
+    recTypeList = [
+                   recType_getDongleStatus,
+                   recType_getSensorConfig,
+                   recType_getOutputConfig,
                    recType_getFixedConfig, 
                    recType_getPacketConfig, 
                    recType_getCalibration,
-                   recType_rfStatusFromRemote, 
-                   recType_getDongleStatus, 
                    recType_getRemoteStatus, 
+                   recType_rfStatusFromRemote, 
+                   recType_dataFromRemote, 
                    recType_ACK, 
                    recType_NACK
                    ]
 
     # this is a dictionary of record type names keyed by record type number
-    recTypeDict = {recType_dataFromRemote       : 'recType_dataFromRemote',
+    recTypeDict = {
                    recType_getFixedConfig       : 'recType_getFixedConfig',
                    recType_getPacketConfig      : 'recType_getPacketConfig',
                    recType_getCalibration       : 'recType_getCalibration',
-                   recType_rfStatusFromRemote   : 'recType_rfStatusFromRemote',
                    recType_getDongleStatus      : 'recType_getDongleStatus',
                    recType_getRemoteStatus      : 'recType_getRemoteStatus',
+                   recType_rfStatusFromRemote   : 'recType_rfStatusFromRemote',
+                   recType_dataFromRemote       : 'recType_dataFromRemote',
                    recType_ACK                  : 'recType_ACK',
                    recType_NACK                 : 'recType_NACK'
                    }

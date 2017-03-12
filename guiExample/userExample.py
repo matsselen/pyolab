@@ -57,6 +57,7 @@ def main():
         print "Problems getting things started...bye"
         os._exit(1)
     
+    
     # Loop to get user commands.
     while G.running:
         # take a little nap to allow stuff from the last command to finish

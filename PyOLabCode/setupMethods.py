@@ -47,7 +47,26 @@ def startItUp():
         G.analThread = Thread(target=analyzeDataThread)
         G.analThread.start()
 
+        # set up some more stuff that will be needed for analysis:
+
+        # output file
+        if G.dumpData:
+            G.outputFile = open('data.txt','w') # file opened in pwd
+
+        # dictionary that will hold data records received on serial port
+        for recType in G.recTypeList:
+            G.recDict[recType] = []
+
+        # set up the of lists that will hold uncalibrated sensor data
+        sensorList = sensorName('SensorList')
+        for sensNum in sensorList:
+            G.uncalDataDict[sensNum] = []
+
+        # call the user code that is executed at the beginning of a job
+        AnalysisClass.handle.analStart()
+
         return True
+
     else:
         print "Can't open the comm port - is there a dongle plugged in?"
         return False
@@ -128,21 +147,6 @@ def readData():
 def analyzeDataThread():
 
     print "In analyzeDataThread: " + str(G.sleepTimeAnal)
-
-    # set up dictionary that will hold data records received on serial port
-    for recType in G.recTypeList:
-        G.recDict[recType] = []
-
-    if G.dumpData:
-        G.outputFile = open('data.txt','w') # file opened in pwd
-
-    # user code that is called at the beginning
-    AnalysisClass.handle.analStart()
-
-    # set up the of lists that will hold uncalibrated sensor data
-    sensorList = sensorName('SensorList')
-    for sensNum in sensorList:
-        G.uncalDataDict[sensNum] = []
 
     # keep looping as long as G.running is True
     while G.running:
