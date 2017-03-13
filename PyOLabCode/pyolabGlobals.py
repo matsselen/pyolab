@@ -44,28 +44,13 @@ class G(object):
     #  Here is a description of the various commands and record types.
     #  These are described in detail in the USB Interface Specification document 
     #  http://www.iolab.science/Documents/IOLab_Expert_Docs/IOLab_usb_interface_specs.pdf
-    #
-    # dictionary of commands supported so far
-    cmdDict = {
-        'getDongleStatus' : 0x14,  # [0x02, 0x14, 0x00, 0x0A]
-        'startData'       : 0x20,  # [0x02, 0x20, 0x00, 0x0A]
-        'stopData'        : 0x21,  # [0x02, 0x21, 0x00, 0x0A]
-        'setSensorConfig' : 0x22,  # [0x02, 0x22, nBytes, payload, 0x0A]
-        'getSensorConfig' : 0x23,  # [0x02, 0x23, 0x01, remote, 0x0A] 
-        'setOutputConfig' : 0x24,  # [0x02, 0x24, nBytes, payload, 0x0A]
-        'getOutputConfig' : 0x25,  # [0x02, 0x25, 0x01, remote, 0x0A]
-        'setFixedConfig'  : 0x26,  # [0x02, 0x26, 0x02, remote, config, 0x0A]
-        'getFixedConfig'  : 0x27,  # [0x02, 0x27, 0x01, remote, 0x0A]
-        'getPacketConfig' : 0x28,  # [0x02, 0x28, 0x01, remote, 0x0A] 
-        'getCalibration'  : 0x29,  # [0x02, 0x29, 0x02, remote, sensor, 0x0A] 
-        'getRemoteStatus' : 0x2A,  # [0x02, 0x2A, 0x01, remote, 0x0A] 
-        'powerDown'       : 0x2B   # [0x02, 0x2B, 0x01, remote, 0x0A] 
-        }
 
+    #
     # records that are received from the system are of these types
     #
     recType_ACK = 0xaa
     #   0xaa = 170 (ACK)
+    #
     recType_NACK = 0xbb
     #   0xbb = 187 (NACK)
     #
@@ -105,33 +90,49 @@ class G(object):
     #   0x41 =  65 (asynchronous data records sent during actual data acquisition)
     #   Record: 0x02 : 0x41 : Nbytes : Remote : Frame# : RFinfo : Data Packet : RSSI : 0xa
 
-    # this is a list of the record types that findRecords() will look for
-    recTypeList = [
-                   recType_getDongleStatus,
-                   recType_getSensorConfig,
-                   recType_getOutputConfig,
-                   recType_getFixedConfig, 
-                   recType_getPacketConfig, 
-                   recType_getCalibration,
-                   recType_getRemoteStatus, 
-                   recType_rfStatusFromRemote, 
-                   recType_dataFromRemote, 
-                   recType_ACK, 
-                   recType_NACK
-                   ]
-
-    # this is a dictionary of record type names keyed by record type number
+    # set up a dictionary of the above record type names keyed by record type number
+    # (note to self - make this a bit less redundant in the future)
     recTypeDict = {
-                   recType_getFixedConfig       : 'recType_getFixedConfig',
-                   recType_getPacketConfig      : 'recType_getPacketConfig',
-                   recType_getCalibration       : 'recType_getCalibration',
-                   recType_getDongleStatus      : 'recType_getDongleStatus',
-                   recType_getRemoteStatus      : 'recType_getRemoteStatus',
-                   recType_rfStatusFromRemote   : 'recType_rfStatusFromRemote',
-                   recType_dataFromRemote       : 'recType_dataFromRemote',
-                   recType_ACK                  : 'recType_ACK',
-                   recType_NACK                 : 'recType_NACK'
+                   recType_getDongleStatus      :'getDongleStatus',
+                   recType_getSensorConfig      :'getSensorConfig',
+                   recType_getOutputConfig      :'getOutputConfig',
+                   recType_getFixedConfig       :'getFixedConfig', 
+                   recType_getPacketConfig      :'getPacketConfig', 
+                   recType_getCalibration       :'getCalibration',
+                   recType_getRemoteStatus      :'getRemoteStatus', 
+                   recType_rfStatusFromRemote   :'rfStatusFromRemote', 
+                   recType_dataFromRemote       :'dataFromRemote', 
+                   recType_ACK                  :'ACK', 
+                   recType_NACK                 :'NACK'
                    }
+
+    # as initialized in startItUp(),this will the inverse dictionary of the abovr
+    recTypeNumDict = {}
+
+    # as initialized in startItUp(),this will a list of the record types 
+    # that findRecords() will look for
+    recTypeList = []
+
+    #
+    # dictionary of supported commands (so far at least)
+    cmdTypeDict = {
+        0x14 :'getDongleStatus',  # [0x02, 0x14, 0x00, 0x0A]
+        0x20 :'startData',        # [0x02, 0x20, 0x00, 0x0A]
+        0x21 :'stopData',         # [0x02, 0x21, 0x00, 0x0A]
+        0x22 :'setSensorConfig',  # [0x02, 0x22, nBytes, payload, 0x0A]
+        0x23 :'getSensorConfig',  # [0x02, 0x23, 0x01, remote, 0x0A] 
+        0x24 :'setOutputConfig',  # [0x02, 0x24, nBytes, payload, 0x0A]
+        0x25 :'getOutputConfig',  # [0x02, 0x25, 0x01, remote, 0x0A]
+        0x26 :'setFixedConfig',   # [0x02, 0x26, 0x02, remote, config, 0x0A]
+        0x27 :'getFixedConfig',   # [0x02, 0x27, 0x01, remote, 0x0A]
+        0x28 :'getPacketConfig',  # [0x02, 0x28, 0x01, remote, 0x0A] 
+        0x29 :'getCalibration',   # [0x02, 0x29, 0x02, remote, sensor, 0x0A] 
+        0x2A :'getRemoteStatus',  # [0x02, 0x2A, 0x01, remote, 0x0A] 
+        0x2B :'powerDown'         # [0x02, 0x2B, 0x01, remote, 0x0A] 
+        }
+
+    # as initialized in startItUp(),this will the inverse dictionary of the above
+    cmdTypeNumDict = {}
 
     #=======================================================================
     # The following dictionaries are basically the key outputs of the system, and provide
