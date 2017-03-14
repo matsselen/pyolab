@@ -24,45 +24,59 @@ def button1Action():
 def get(event):
     item = event.get()
     G.listBoxData.insert(END,item) 
-    G.listBoxComm.insert(END,item)    
+    G.listBoxComm.insert(END,item)   
 
-#setupGlobalVariables()
+def commandSelect(event):
+    item2 = entry.get()
+    G.listBoxComm.insert(END,[event,item2])    
 
 
+#============================================================
+# set up IOLab user callback routines
 analClass = AnalysisClass(analUserStart, analUserEnd, analUserLoop)
 
+# start up the IOLab data acquisition stuff
 if not startItUp():
     print "Problems getting things started...bye"
     os._exit(1)
 
-# create windows and buttons. This takes a lot of code
-# because Tkinter is not that fancy and I'm not that smart
+#============================================================
+# Create the windows and buttons we will need in this example. 
+# This takes many inches of code because Tkinter is not that fancy 
+# (and also, I suspect, because I'm not that smart)
 
+# create the root window
 root = Tk()
 root.geometry('800x500')
 root.title("IOLab Test Application")
 
+#-------------------------------------------
 # the left part of the screen holds control elements
 # this frame does not expand when the window is scaled
 leftframe = Frame(root)
 leftframe.pack( side = LEFT , fill=BOTH, expand=0)
 Label(leftframe, text="Controls").pack()
 
-# button for sending commands
+# the button is for sending selected commands to IOLab
 button1 = Button(leftframe,text = "Send Command",command = button1Action)
 button1.pack(side=TOP, padx=10,pady=10)
 
+# the entry box is for commands that require user data
 entry = Entry(leftframe)
-entry.bind('<Return>', get)
-
-var = StringVar(leftframe)
-choices = set(G.cmdTypeNumDict.keys())
-var.set(G.cmdTypeNumDict.keys()[0]) # set the default option
-popupMenu = OptionMenu(leftframe, var, *choices)
-
+entry.bind('<Return>', get) # look for user hitting <CR>
 entry.pack(side=TOP,padx=10,pady=10)
-popupMenu.pack(side=TOP, fill=X,padx=10,pady=10)
 
+# the drop-down menu will contain a list of possible commands
+# and these need to be put into a StringVar object
+var = StringVar(leftframe)
+commandNames = set(G.cmdTypeNumDict.keys()) # list of possible commands
+var.set(G.cmdTypeNumDict.keys()[0])         # set the default command
+
+# set up the drop-down menu using the above list of commands
+commMenu = OptionMenu(leftframe, var, *commandNames, command = commandSelect)
+commMenu.pack(side=TOP, fill=X,padx=10,pady=10)
+
+#-------------------------------------------
 # the right part of the screen displays data and control records
 # this frame does expand when the window is scaled
 rightframe = Frame(root)
@@ -98,9 +112,13 @@ scrollbarData.config(command=G.listBoxData.yview)
 scrollbarData.pack(side=RIGHT, fill=Y)
 G.listBoxData.pack(fill=BOTH, expand=1,padx=10,pady=10)
 
-
+#-------------------------------------------
+# this is the main GUI event loop
 root.mainloop()
 
-
+#-------------------------------------------
+# when we get to this point it means we have quite the GUI
 print "Quitting..."
+
+# shut down the IOLab data acquisition
 shutItDown()
