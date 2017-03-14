@@ -9,12 +9,14 @@
 # system stuff
 import sys
 import time
+from Tkinter import *
 
 
 # local common code
 sys.path.append('../PyOLabCode/')
 from pyolabGlobals import G
 from dataMethods import *
+from commMethods import *
 
 # local user code
 from userGlobals import U
@@ -73,16 +75,54 @@ def analUserLoop():
     # print any new accelerometer data to the screen
     # the sys.stdout.write and .flush makes it appear on the same line
     #
-    nData = len(G.uncalDataDict[U.sensNum])
-    if nData > U.lastDataPrinted:
-        for i in range(U.lastDataPrinted,nData):
-            #print G.uncalDataDict[U.sensNum][i]
-            sys.stdout.write('%s\r' % '                                  ') # clear previous line
-            sys.stdout.write('%s\r' % str(G.uncalDataDict[U.sensNum][i]))   # print uncalibrated accel data
-            sys.stdout.flush()
+    nData = len(G.allRecList)
+    if nData > U.lastRecord:
+        for i in range(U.lastRecord,nData):
+            recType = G.allRecList[i][0]
+            index = G.allRecList[i][1]
+            rec = G.recDict[recType][index]
+            U.listBoxData.insert(END,rec)
 
-        U.lastDataPrinted = nData
-
+        U.lastRecord = nData
 
     
+def sendCommand():
+
+    pyld = U.payload.split(',')
+    payload = [int(pyld[i]) for i in range(len(pyld))]
+
+    command = G.cmdTypeNumDict[U.selection]
+    nBytes  = len(payload)
+
+    command_record = [0x02, command, nBytes] + payload + [0x0A]
+
+    U.listBoxCommTx.insert(END,command_record)
+
+    print "calling sendIOLabCommand with record:"
+    print command_record
+    sendIOLabCommand(G.serialPort,command_record)
+
+
+def getEntryPrompt(command):
+
+    promptDict = {
+        0x14 : '',
+        0x20 : '',
+        0x21 : '',
+        0x22 : 'payload',
+        0x23 : 'remote',
+        0x24 : 'payload',
+        0x25 : 'remote',
+        0x26 : 'remote,config',
+        0x27 : 'remote',
+        0x28 : 'remote',
+        0x29 : 'remote, sensor',
+        0x2A : 'remote',
+        0x2B : 'remote'
+        }
+
+    prompt = promptDict[command]
+
+    return prompt
+
 

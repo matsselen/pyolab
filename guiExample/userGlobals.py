@@ -22,10 +22,12 @@ class U(object):
                                 # (just for example - not needed in your own code)
 
 
-    lastDataPrinted = 0         # keeping track of what we have already printed
-    sensNum = 0                 # will be used to store the sensor number we want to print
+    lastRecord = 0         # keeping track of what we have already printed
 
 
     # some GUI variables
     listBoxData = ''
-    listBoxComm = ''
+    listBoxCommTx = ''
+    listBoxCommRx = ''
+    selection = ''
+    payload = ''

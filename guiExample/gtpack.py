@@ -8,6 +8,8 @@ from Tkinter import *           #This interface allow us to draw windows
 sys.path.append('../PyOLabCode/')
 from analClass import AnalysisClass
 from pyolabGlobals import G
+from userGlobals import U
+
 from commMethods import *
 from setupMethods import *
 
@@ -15,22 +17,17 @@ from setupMethods import *
 from userMethods import *
 
 def button1Action():
-    item1 = var.get()
-    item2 = entry.get()
-    G.listBoxData.insert(END,[item1,item2]) 
-    G.listBoxComm.insert(END,[item1,item2])    
-    #root.quit()
+    U.selection = var.get()
+    U.payload = entry.get()
+    sendCommand()
 
-def get(event):
-    item = event.get()
-    G.listBoxData.insert(END,item) 
-    G.listBoxComm.insert(END,item)   
 
 def commandSelect(event):
-    item2 = entry.get()
-    G.listBoxComm.insert(END,[event,item2])    
-
-
+    U.selection = entry.get()
+    prompt = getEntryPrompt(U.selection)
+    entry.delete(0, END)
+    entry.insert(0,prompt)
+ 
 #============================================================
 # set up IOLab user callback routines
 analClass = AnalysisClass(analUserStart, analUserEnd, analUserLoop)
@@ -41,13 +38,13 @@ if not startItUp():
     os._exit(1)
 
 #============================================================
-# Create the windows and buttons we will need in this example. 
+# Create and format the graphical elements that this example uses.  
 # This takes many inches of code because Tkinter is not that fancy 
 # (and also, I suspect, because I'm not that smart)
 
 # create the root window
 root = Tk()
-root.geometry('800x500')
+root.geometry('800x600')
 root.title("IOLab Test Application")
 
 #-------------------------------------------
@@ -55,62 +52,77 @@ root.title("IOLab Test Application")
 # this frame does not expand when the window is scaled
 leftframe = Frame(root)
 leftframe.pack( side = LEFT , fill=BOTH, expand=0)
-Label(leftframe, text="Controls").pack()
 
-# the button is for sending selected commands to IOLab
-button1 = Button(leftframe,text = "Send Command",command = button1Action)
-button1.pack(side=TOP, padx=10,pady=10)
-
-# the entry box is for commands that require user data
-entry = Entry(leftframe)
-entry.bind('<Return>', get) # look for user hitting <CR>
-entry.pack(side=TOP,padx=10,pady=10)
+# mats crappy way of adding some whitespace at the top
+Label(leftframe, text="\n\n\n").pack() 
 
 # the drop-down menu will contain a list of possible commands
 # and these need to be put into a StringVar object
 var = StringVar(leftframe)
 commandNames = set(G.cmdTypeNumDict.keys()) # list of possible commands
-var.set(G.cmdTypeNumDict.keys()[0])         # set the default command
+defaultCommandString = G.cmdTypeNumDict.keys()[0]
+var.set(defaultCommandString)  # set the default command
 
 # set up the drop-down menu using the above list of commands
+Label(leftframe, text="Select command and \nprovide required playload").pack()
 commMenu = OptionMenu(leftframe, var, *commandNames, command = commandSelect)
 commMenu.pack(side=TOP, fill=X,padx=10,pady=10)
 
+# the entry box is for commands that require user data
+entry = Entry(leftframe)
+entry.pack(side=TOP,padx=10,pady=10)
+defaultCommand = G.cmdTypeNumDict[defaultCommandString]
+entry.insert(0,getEntryPrompt(defaultCommand))
+
+# the button is for sending selected commands to IOLab
+button1 = Button(leftframe,text = "Send Command",command = button1Action)
+button1.pack(side=TOP, padx=10,pady=10)
+
 #-------------------------------------------
 # the right part of the screen displays data and control records
-# this frame does expand when the window is scaled
+# this frame DOES expand when the window is scaled
 rightframe = Frame(root)
-rightframe.pack( side = LEFT , fill=BOTH, expand=1)
+rightframe.pack( side = LEFT, fill=BOTH, expand=1)
+Label(rightframe, text="Control Records Sent / Control Records Received / Data Records Received").pack() 
 
-# labeled scrollable text-box to display COMMAND records
-# put the label in the parent frame
-Label(rightframe, text="Control Records").pack() 
+# scrollable text-box to display COMMAND records
+# create a child frame to hold Tx and Rx listboxes
+cframe = Frame(rightframe)
+cframe.pack(side = TOP , fill=BOTH, expand=0)
 
 # create a child frame to hold the listbox and scrollbar
-cframe = Frame(rightframe)
-cframe.pack(side = TOP , fill=BOTH, expand=1)
+cTxframe = Frame(cframe)
+cTxframe.pack(side = TOP , fill=BOTH, expand=1)
 
-# create scrollbar and listbox and bind them together
-scrollbarComm = Scrollbar(cframe, orient=VERTICAL)
-G.listBoxComm = Listbox(cframe, yscrollcommand=scrollbarComm.set)
-scrollbarComm.config(command=G.listBoxComm.yview)
-scrollbarComm.pack(side=RIGHT, fill=Y)
-G.listBoxComm.pack(fill=BOTH, expand=1,padx=10,pady=10)
+# create scrollbar and Tx listbox and bind them together
+scrollbarCommTx = Scrollbar(cTxframe, orient=VERTICAL)
+U.listBoxCommTx = Listbox(cTxframe, yscrollcommand=scrollbarCommTx.set)
+scrollbarCommTx.config(command=U.listBoxCommTx.yview)
+scrollbarCommTx.pack(side=RIGHT, fill=Y)
+U.listBoxCommTx.pack(fill=BOTH, expand=1,padx=5,pady=5)
 
-# labeled scrollable text-box to display DATA records
-# put the label in the parent frame
-Label(rightframe, text="Data Records").pack()
+# create a child frame to hold the Rx listbox and scrollbar
+cRxframe = Frame(cframe)
+cRxframe.pack(side = TOP , fill=BOTH, expand=1)
 
+# create scrollbar and Rx listbox and bind them together
+scrollbarCommRx = Scrollbar(cRxframe, orient=VERTICAL)
+U.listBoxCommRx = Listbox(cRxframe, yscrollcommand=scrollbarCommRx.set)
+scrollbarCommRx.config(command=U.listBoxCommRx.yview)
+scrollbarCommRx.pack(side=RIGHT, fill=Y)
+U.listBoxCommRx.pack(fill=BOTH, expand=1,padx=5,pady=5)
+
+# scrollable text-box to display DATA records
 # create a child frame to hold the listbox and scrollbar
 dframe = Frame(rightframe)
 dframe.pack(side = TOP , fill=BOTH, expand=1)
 
-# create scrollbar and listbox and bind them together
+# create scrollbar and data listbox and bind them together
 scrollbarData = Scrollbar(dframe, orient=VERTICAL)
-G.listBoxData = Listbox(dframe, yscrollcommand=scrollbarData.set)
-scrollbarData.config(command=G.listBoxData.yview)
+U.listBoxData = Listbox(dframe, yscrollcommand=scrollbarData.set)
+scrollbarData.config(command=U.listBoxData.yview)
 scrollbarData.pack(side=RIGHT, fill=Y)
-G.listBoxData.pack(fill=BOTH, expand=1,padx=10,pady=10)
+U.listBoxData.pack(fill=BOTH, expand=1,padx=5,pady=5)
 
 #-------------------------------------------
 # this is the main GUI event loop

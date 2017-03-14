@@ -65,6 +65,7 @@ def openIOLabPort(pName):
     serialport = serial.Serial(pName)
     serialport.baudrate = 115200
     serialport.timeout  = 1
+    G.port = serialport
 
     return serialport
 
@@ -210,6 +211,14 @@ def powerDown(s,remote):
 
     command = G.cmdTypeNumDict['powerDown']
     command_record = [0x02, command, 0x01, remote, 0x0A]
+    s.write(bytearray(command_record))
+    time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
+
+#======================================
+# This is a generic command 
+def sendIOLabCommand(s,command_record):
+
+    print command_record
     s.write(bytearray(command_record))
     time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 
