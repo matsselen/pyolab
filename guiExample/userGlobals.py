@@ -23,5 +23,9 @@ class U(object):
 
 
     lastDataPrinted = 0         # keeping track of what we have already printed
-    sensNum = 0                 # will be used to store the sensor numnber we want to print
+    sensNum = 0                 # will be used to store the sensor number we want to print
 
+
+    # some GUI variables
+    listBoxData = ''
+    listBoxComm = ''
