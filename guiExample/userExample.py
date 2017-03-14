@@ -1,113 +1,147 @@
-#
-# This file is part of PyOLab. https://github.com/matsselen/pyolab
-# (C) 2017 Mats Selen <mats.selen@gmail.com>
-#
-# SPDX-License-Identifier:    BSD-3-Clause
-# (https://opensource.org/licenses/BSD-3-Clause)
-#
-
 # system stuff
 import os
 import sys
 import time
+from Tkinter import *           #This interface allow us to draw windows
 
 # local common code
 sys.path.append('../PyOLabCode/')
 from analClass import AnalysisClass
 from pyolabGlobals import G
+from userGlobals import U
+
 from commMethods import *
 from setupMethods import *
 
 # local user code
 from userMethods import *
 
-"""
-This is example main() code that opens the serial port, launches data 
-fetching and data analysis threads, and responds to user input.
-
-"""
-def main():
-
-    #=========================================
-    # This is the main code. All it does is open the serial port,
-    # launch the data fetching and data analysis threads, and then
-    # go into a loop waiting for user input. 
-    # Suggested user inputs (without quotes):
-    # '=38'     (sets configuration 38, which includes a lot of sensors)
-    # 'a'       (starts the data acquisition)
-    # 's'       (stops the data acquisition)
-    # 'x'       (exits the program)
-    #
-    # See comments in userMethods.py for more details. 
-    #
-    
-    # This instantiates an object that holds information about which user analysis
-    # methods are to be called by the main analysis code. Doing it it this way removes
-    # the need for the analysis code to know about the user code in advance.
-    # It is assumed that the methods analUserStart(), analUserEnd(), analUserLoop()
-    # are all localed in the local file "userMethods.py"
-    #
-    analClass = AnalysisClass(analUserStart, analUserEnd, analUserLoop)
-    
-    # This causes the raw data to be dumped to a file called "data.txt" in
-    # the working directory
-    G.dumpData = True
-    
-    if not startItUp():
-        print "Problems getting things started...bye"
-        os._exit(1)
-    
-    
-    # Loop to get user commands.
-    while G.running:
-        # take a little nap to allow stuff from the last command to finish
-        time.sleep(.2) 
-    
-        # ask the user for input
-        print "\nEnter command:"
-        print "   =n  to set remote configuration to n (for example =38)"
-        print "   a   to run acquisition"
-        print "   s   to stop acquisition"
-        print "   x   to exit\n"
-    
-        # wait for user input
-        command = raw_input()
-    
-        # this block is executed when its time to quit
-        if command.count('x') > 0:
-            #signal that we want to quit
-            shutItDown()
-    
-        else:
-    
-            if command.count('a') > 0:
-                if G.configIsSet:
-                    print "Calling startData()"
-                    startData(G.serialPort)
-                else:
-                    print "You need to set a configuration before acquiring data"
-    
-            elif command.count('s') > 0:
-                print "Calling stopData()"
-                stopData(G.serialPort)
-    
-            elif command.count('=') > 0:
-                n=int(command[1:])
-                print "Calling setFixedConfig("+str(n)+")" 
-                print configName(n)
-                # set the fixed configuration for remote 1 
-                setFixedConfig(G.serialPort,n,1)
-    
-                # ask remote 1 to tell us about its configuration 
-                print "Calling getFixedConfig()" 
-                getFixedConfig(G.serialPort,1)
-    
-                # ask remote 1 to tell us about its data packet configuration
-                print "Calling getPacketConfig()" 
-                getPacketConfig(G.serialPort,1)
+def button1Action():
+    U.selection = var.get()
+    U.payload = entry.get()
+    sendCommand()
 
 
-#--------------------------
-# run the above main() code 
-if __name__ == "__main__":
-    main()
+def commandSelect(event):
+    select = var.get()
+    print "select: "+select
+    U.selection = select
+    prompt = getEntryPrompt(select)
+    print "prompt: "+str(prompt)
+    U.labelstring.set(prompt[0])
+    entry.delete(0, END)
+    entry.insert(0,prompt[1])
+ 
+#============================================================
+# set up IOLab user callback routines
+analClass = AnalysisClass(analUserStart, analUserEnd, analUserLoop)
+
+# start up the IOLab data acquisition stuff
+if not startItUp():
+    print "Problems getting things started...bye"
+    os._exit(1)
+
+#============================================================
+# Create and format the graphical elements that this example uses.  
+# This takes many inches of code because Tkinter is not that fancy 
+# (and also, I suspect, because I'm not that smart)
+
+# create the root window
+root = Tk()
+root.geometry('800x600')
+root.title("IOLab Test Application")
+
+#-------------------------------------------
+# the left part of the screen holds control elements
+# this frame does not expand when the window is scaled
+leftframe = Frame(root)
+leftframe.pack( side = LEFT , fill=BOTH, expand=0)
+
+# mats crappy way of adding some whitespace at the top
+Label(leftframe, text="\n\n\n").pack() 
+
+# the drop-down menu will contain a list of possible commands
+# and these need to be put into a StringVar object
+var = StringVar(leftframe)
+commandNames = set(G.cmdTypeNumDict.keys()) # list of possible commands
+defaultCommandString = G.cmdTypeNumDict.keys()[0]
+var.set(defaultCommandString)  # set the default command
+
+# set up the drop-down menu using the above list of commands
+Label(leftframe, text="Select command and \nprovide required playload").pack()
+commMenu = OptionMenu(leftframe, var, *commandNames, command = commandSelect)
+commMenu.pack(side=TOP, fill=X,padx=10,pady=10)
+
+# the entry box is for commands that require user data
+prompt = getEntryPrompt(defaultCommandString)
+
+U.labelstring = StringVar(leftframe)
+U.labelstring.set(prompt[0])
+entrylabel = Label(leftframe, textvariable=U.labelstring).pack()
+entry = Entry(leftframe)
+entry.pack(side=TOP,padx=10,pady=10)
+entry.insert(0,prompt[1])
+
+# the button is for sending selected commands to IOLab
+button1 = Button(leftframe,text = "Send Command",command = button1Action)
+button1.pack(side=TOP, padx=10,pady=10)
+
+#-------------------------------------------
+# the right part of the screen displays data and control records
+# this frame DOES expand when the window is scaled
+rightframe = Frame(root)
+rightframe.pack( side = LEFT, fill=BOTH, expand=1)
+Label(rightframe, text="Control Records Sent / Control Records Received / Data Records Received").pack() 
+
+# scrollable text-box to display COMMAND records
+# create a child frame to hold Tx and Rx listboxes
+cframe = Frame(rightframe)
+cframe.pack(side = TOP , fill=BOTH, expand=0)
+
+# create a child frame to hold the listbox and scrollbar
+cTxframe = Frame(cframe)
+cTxframe.pack(side = TOP , fill=BOTH, expand=1)
+
+# create scrollbar and Tx listbox and bind them together
+scrollbarCommTx = Scrollbar(cTxframe, orient=VERTICAL)
+U.listBoxCommTx = Listbox(cTxframe, yscrollcommand=scrollbarCommTx.set)
+scrollbarCommTx.config(command=U.listBoxCommTx.yview)
+scrollbarCommTx.pack(side=RIGHT, fill=Y)
+U.listBoxCommTx.pack(fill=BOTH, expand=1,padx=5,pady=5)
+
+# create a child frame to hold the Rx listbox and scrollbar
+cRxframe = Frame(cframe)
+cRxframe.pack(side = TOP , fill=BOTH, expand=1)
+
+# create scrollbar and Rx listbox and bind them together
+scrollbarCommRx = Scrollbar(cRxframe, orient=VERTICAL)
+U.listBoxCommRx = Listbox(cRxframe, yscrollcommand=scrollbarCommRx.set)
+scrollbarCommRx.config(command=U.listBoxCommRx.yview)
+scrollbarCommRx.pack(side=RIGHT, fill=Y)
+U.listBoxCommRx.pack(fill=BOTH, expand=1,padx=5,pady=5)
+
+# scrollable text-box to display DATA records
+# create a child frame to hold the listbox and scrollbar
+dframe = Frame(rightframe)
+dframe.pack(side = TOP , fill=BOTH, expand=1)
+
+# create scrollbar and data listbox and bind them together
+scrollbarData = Scrollbar(dframe, orient=VERTICAL)
+scrollbarDatax = Scrollbar(dframe, orient=HORIZONTAL)
+U.listBoxData = Listbox(dframe, xscrollcommand=scrollbarDatax.set, yscrollcommand=scrollbarData.set)
+scrollbarData.config(command=U.listBoxData.yview)
+scrollbarDatax.config(command=U.listBoxData.xview)
+scrollbarData.pack(side=RIGHT, fill=Y)
+scrollbarDatax.pack(side=BOTTOM, fill=X)
+U.listBoxData.pack(fill=BOTH, expand=1,padx=5,pady=5)
+
+#-------------------------------------------
+# this is the main GUI event loop
+root.mainloop()
+
+#-------------------------------------------
+# when we get to this point it means we have quite the GUI
+print "Quitting..."
+
+# shut down the IOLab data acquisition
+shutItDown()

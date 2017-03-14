@@ -31,3 +31,5 @@ class U(object):
     listBoxCommRx = ''
     selection = ''
     payload = ''
+    entrylabel = ''
+    labelstring = ''

@@ -23,8 +23,10 @@ def button1Action():
 
 
 def commandSelect(event):
-    U.selection = entry.get()
-    prompt = getEntryPrompt(U.selection)
+    select = var.get()
+    print select
+    U.selection = select
+    prompt = getEntryPrompt(select)
     entry.delete(0, END)
     entry.insert(0,prompt)
  
@@ -71,8 +73,7 @@ commMenu.pack(side=TOP, fill=X,padx=10,pady=10)
 # the entry box is for commands that require user data
 entry = Entry(leftframe)
 entry.pack(side=TOP,padx=10,pady=10)
-defaultCommand = G.cmdTypeNumDict[defaultCommandString]
-entry.insert(0,getEntryPrompt(defaultCommand))
+entry.insert(0,getEntryPrompt(defaultCommandString))
 
 # the button is for sending selected commands to IOLab
 button1 = Button(leftframe,text = "Send Command",command = button1Action)

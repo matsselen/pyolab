@@ -81,20 +81,30 @@ def analUserLoop():
             recType = G.allRecList[i][0]
             index = G.allRecList[i][1]
             rec = G.recDict[recType][index]
-            U.listBoxData.insert(END,rec)
+
+            #U.listBoxCommRx.insert(END,rec)
+            #U.listBoxData.insert(END,rec)
+
+            if recType == G.recType_dataFromRemote:
+                U.listBoxData.insert(END,rec)
+            else:
+                U.listBoxCommRx.insert(END,rec)
 
         U.lastRecord = nData
 
     
 def sendCommand():
 
+    command = G.cmdTypeNumDict[U.selection]    
     pyld = U.payload.split(',')
-    payload = [int(pyld[i]) for i in range(len(pyld))]
 
-    command = G.cmdTypeNumDict[U.selection]
-    nBytes  = len(payload)
+    if len(pyld) > 0 and U.payload != '':
+        payload = [int(pyld[i]) for i in range(len(pyld))]
+        nBytes  = len(payload)
+        command_record = [0x02, command, nBytes] + payload + [0x0A]
 
-    command_record = [0x02, command, nBytes] + payload + [0x0A]
+    else:
+        command_record = [0x02, command, 0x00, 0x0A]
 
     U.listBoxCommTx.insert(END,command_record)
 
@@ -106,22 +116,29 @@ def sendCommand():
 def getEntryPrompt(command):
 
     promptDict = {
-        0x14 : '',
-        0x20 : '',
-        0x21 : '',
-        0x22 : 'payload',
-        0x23 : 'remote',
-        0x24 : 'payload',
-        0x25 : 'remote',
-        0x26 : 'remote,config',
-        0x27 : 'remote',
-        0x28 : 'remote',
-        0x29 : 'remote, sensor',
-        0x2A : 'remote',
-        0x2B : 'remote'
+        0x14 : ['no payload',''],
+        0x20 : ['no payload',''],
+        0x21 : ['no payload',''],
+        0x22 : ['payload',''],
+        0x23 : ['payload: remote','1'],
+        0x24 : ['no payload',''],
+        0x25 : ['remote','1'],
+        0x26 : ['payload: remote, config','1,38'],
+        0x27 : ['payload: remote','1'],
+        0x28 : ['payload: remote','1'],
+        0x29 : ['payload: remote, sensor','1,4'],
+        0x2A : ['payload: remote','1'],
+        0x2B : ['payload: remote','1']
         }
 
-    prompt = promptDict[command]
+    print "in getEntryPrompt, command is "+ str(command)
+    if command in G.cmdTypeNumDict:
+        commandNum = G.cmdTypeNumDict[command]
+        prompt = promptDict[commandNum]
+        print prompt[0]
+        print prompt[1]
+    else:
+        prompt = 'oops'
 
     return prompt
 
