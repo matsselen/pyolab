@@ -156,6 +156,15 @@ def findLastConfig():
 # extractSensorData() to extract raw sensor data from these 
 #
 def decodeDataPayloads():
+
+    # we can only do this if we know what sensors to expect
+    if len(G.lastSensorBytes) == 0:
+        if G.logData:
+            G.logFile.write("\n len(G.lastSensorBytes) = " + str(len(G.lastSensorBytes)))
+            G.logFile.write("this will happen if you haven't sent a getPacketConfig command")
+        return
+
+
     nRec = len(G.recDict[G.recType_dataFromRemote])
     if nRec > G.nextRecord:
         for n in range(G.nextRecord,nRec):

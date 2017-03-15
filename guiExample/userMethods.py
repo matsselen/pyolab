@@ -57,11 +57,17 @@ def analUserEnd():
     print " "
 
     # print information about the sensor data that was received
-    for sensor in G.uncalDataDict:
-        name = sensorName(sensor)
-        count = len(G.uncalDataDict[sensor])
-        print "found "+str(count) + " measurements of type " + name
-    print " "
+    # (we can only do this if we know what sensors to expect, so check that first)
+    if len(G.lastSensorBytes) != 0:
+        for sensor in G.uncalDataDict:
+            name = sensorName(sensor)
+            count = len(G.uncalDataDict[sensor])
+            print "found "+str(count) + " measurements of type " + name
+        print " "
+    else:
+        print "Didn't decode any sensor data info since len(G.lastSensorBytes) = 0"
+        print "(you probably didn't send a getPacketCOnfig command)"
+        print " "
 
 #======================================================================
 # User code called whenever new data is detected in the main analysis loop 

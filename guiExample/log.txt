@@ -1,82 +1,9 @@
 
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
-sensors found 11 expected 0this can happen if you havent sent a getPacketConfig command
-overflow on recSequence 109 sensor 2
-Bailing out after finding wrong sensor: 2 in [2, 65, 109, 1, 10, 1, 11, 130, 12, 247, 181, 6, 245, 9, 223, 247, 182, 6, 250, 9, 208, 129, 12, 255, 232, 1, 128, 31, 240, 255, 228, 1, 112, 31, 228, 137, 8, 0, 0, 0, 0, 0, 0, 0, 0, 136, 4, 8, 119, 8, 118, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 135, 4, 1, 252, 1, 251, 139, 4, 8, 11, 8, 11, 140, 4, 7, 255, 7, 255, 149, 4, 7, 19, 7, 34, 141, 2, 224, 224, 132, 16, 86, 128, 130, 128, 86, 64, 130, 64, 86, 128, 130, 192, 86, 64, 130, 192, 78, 10]
+ len(G.lastSensorBytes) = 0this will happen if you haven't sent a getPacketConfig command
+ len(G.lastSensorBytes) = 0this will happen if you haven't sent a getPacketConfig command
+ len(G.lastSensorBytes) = 0this will happen if you haven't sent a getPacketConfig command
+ len(G.lastSensorBytes) = 0this will happen if you haven't sent a getPacketConfig command
+ len(G.lastSensorBytes) = 0this will happen if you haven't sent a getPacketConfig command
+ len(G.lastSensorBytes) = 0this will happen if you haven't sent a getPacketConfig command
+ len(G.lastSensorBytes) = 0this will happen if you haven't sent a getPacketConfig command
+ len(G.lastSensorBytes) = 0this will happen if you haven't sent a getPacketConfig command

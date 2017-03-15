@@ -19,7 +19,7 @@ class G(object):
     sleepTimeRead = 0.05 # time to sleep each read loop
     sleepTimeAnal = 0.11 # time to sleep each read loop
     sleepCommand  = 0.10 # time to sleep after a command is sent
-    dumpData    = False  # if True the base analysis code dumps data to a file
+    dumpData    = True  # if True the base analysis code dumps data to a file
     logData     = True   # if True code writes info/error messages to a file
     running     = True   # used to signal treads to quit
     configIsSet = False  # is it?
@@ -118,7 +118,6 @@ class G(object):
     #
     # dictionary of supported commands (so far at least)
     cmdTypeDict = {
-        0x14 :'getDongleStatus',  # [0x02, 0x14, 0x00, 0x0A]
         0x20 :'startData',        # [0x02, 0x20, 0x00, 0x0A]
         0x21 :'stopData',         # [0x02, 0x21, 0x00, 0x0A]
         0x22 :'setSensorConfig',  # [0x02, 0x22, nBytes, payload, 0x0A]
@@ -129,6 +128,7 @@ class G(object):
         0x27 :'getFixedConfig',   # [0x02, 0x27, 0x01, remote, 0x0A]
         0x28 :'getPacketConfig',  # [0x02, 0x28, 0x01, remote, 0x0A] 
         0x29 :'getCalibration',   # [0x02, 0x29, 0x02, remote, sensor, 0x0A] 
+        0x14 :'getDongleStatus',  # [0x02, 0x14, 0x00, 0x0A]
         0x2A :'getRemoteStatus',  # [0x02, 0x2A, 0x01, remote, 0x0A] 
         0x2B :'powerDown'         # [0x02, 0x2B, 0x01, remote, 0x0A] 
         }
