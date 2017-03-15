@@ -18,18 +18,27 @@ but its something Mats understands.
 
 class U(object):
 
-    analUserCalls = 0           # how many times analUserLoop() has been called
-                                # (just for example - not needed in your own code)
-
-
     lastRecord = 0         # keeping track of what we have already printed
 
+    analUserCalls = 0      # how many times analUserLoop() has been called
+                           # (just for example - not needed in your own code)
 
-    # some GUI variables
-    listBoxData = ''
-    listBoxCommTx = ''
-    listBoxCommRx = ''
-    selection = ''
     payload = ''
-    entrylabel = ''
-    labelstring = ''
+    selection = ''
+    
+    # command record information keyed by command number
+    promptDict = {
+        0x14 : ['payload: (none)',''],
+        0x20 : ['payload: (none)',''],
+        0x21 : ['payload: (none)',''],
+        0x22 : ['remote, Npr, Npr*[sens,keyval]',''],
+        0x23 : ['remote','1'],
+        0x24 : ['remote, Npr, Npr*[sens,keyval]',''],
+        0x25 : ['remote','1'],
+        0x26 : ['remote, config','1,38'],
+        0x27 : ['remote','1'],
+        0x28 : ['remote','1'],
+        0x29 : ['remote, sensor','1,4'],
+        0x2A : ['remote','1'],
+        0x2B : ['remote','1']
+        }

@@ -40,9 +40,6 @@ the records and data that were received from the system.
 def analUserStart():
     print "in analUserStart()"
 
-    U.sensNum = 1
-    print "...will dump data from " + sensorName(U.sensNum)
-
     print "\n MAKE SURE YOUR REMOTE IS TURNED ON \n"
 
 #======================================================================
@@ -82,23 +79,29 @@ def analUserLoop():
             index = G.allRecList[i][1]
             rec = G.recDict[recType][index]
 
-            #U.listBoxCommRx.insert(END,rec)
-            #U.listBoxData.insert(END,rec)
-
             if recType == G.recType_dataFromRemote:
                 U.listBoxData.insert(END,rec)
+                U.listBoxData.see(END)
             else:
                 U.listBoxCommRx.insert(END,rec)
+                U.listBoxCommRx.see(END)
 
         U.lastRecord = nData
 
     
-def sendCommand():
+#======================================================================
+# Sends a command to the IOLab system
+#
+def sendCommand(selection, payload):
 
-    command = G.cmdTypeNumDict[U.selection]    
-    pyld = U.payload.split(',')
+    # Fetch the command selected by the GUI
+    command = G.cmdTypeNumDict[selection]    
 
-    if len(pyld) > 0 and U.payload != '':
+    # the command is a list of integers
+    pyld = payload.split(',')
+
+    # extract the payload values and create the command record 
+    if len(pyld) > 0 and payload != '':
         payload = [int(pyld[i]) for i in range(len(pyld))]
         nBytes  = len(payload)
         command_record = [0x02, command, nBytes] + payload + [0x0A]
@@ -106,37 +109,32 @@ def sendCommand():
     else:
         command_record = [0x02, command, 0x00, 0x0A]
 
+    # send the command record to the Tx listbox
     U.listBoxCommTx.insert(END,command_record)
+    U.listBoxCommTx.see(END)
 
-    print "calling sendIOLabCommand with record:"
-    print command_record
+    # send the command record to the IOLab system
     sendIOLabCommand(G.serialPort,command_record)
 
+    if selection == 'setFixedConfig':
+        print "dont forget to send a getPacketConfig command"
 
-def getEntryPrompt(command):
 
-    promptDict = {
-        0x14 : ['no payload',''],
-        0x20 : ['no payload',''],
-        0x21 : ['no payload',''],
-        0x22 : ['payload',''],
-        0x23 : ['payload: remote','1'],
-        0x24 : ['no payload',''],
-        0x25 : ['remote','1'],
-        0x26 : ['payload: remote, config','1,38'],
-        0x27 : ['payload: remote','1'],
-        0x28 : ['payload: remote','1'],
-        0x29 : ['payload: remote, sensor','1,4'],
-        0x2A : ['payload: remote','1'],
-        0x2B : ['payload: remote','1']
-        }
+#======================================================================
+# Figure out the label under the data entry box and the default values
+# to put into the box
+#
+def getEntryPrompt(selection):
 
-    print "in getEntryPrompt, command is "+ str(command)
-    if command in G.cmdTypeNumDict:
-        commandNum = G.cmdTypeNumDict[command]
-        prompt = promptDict[commandNum]
-        print prompt[0]
-        print prompt[1]
+    # extract information
+    if selection in G.cmdTypeNumDict:
+
+        # first get the command number by knowing the command name
+        commandNum = G.cmdTypeNumDict[selection]
+
+        # get the information we need out of the dictionary that
+        # contains this information
+        prompt = U.promptDict[commandNum]
     else:
         prompt = 'oops'
 

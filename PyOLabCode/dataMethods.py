@@ -165,6 +165,7 @@ def decodeDataPayloads():
             # this should be the same as the number expected for this config
             if nSens != len(G.lastSensorBytes):
                 print "sensors found "+str(nSens)+" expected "+str(len(G.lastSensorBytes))
+                print "this can happen if you havent sent a getPacketConfig command"
 
             i = 7        # pointer to info and data from first sensor
             nSaved = 0   # the number of sensors we have saved data from

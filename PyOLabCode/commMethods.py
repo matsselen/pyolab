@@ -218,7 +218,6 @@ def powerDown(s,remote):
 # This is a generic command 
 def sendIOLabCommand(s,command_record):
 
-    print "in sendIOLabCommand record is "+str(command_record)
     s.write(bytearray(command_record))
     time.sleep(G.sleepCommand)  #give the serial port some time to receive the data
 

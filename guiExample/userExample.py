@@ -19,19 +19,15 @@ from userMethods import *
 def button1Action():
     U.selection = var.get()
     U.payload = entry.get()
-    sendCommand()
-
+    sendCommand( U.selection, U.payload)
 
 def commandSelect(event):
-    select = var.get()
-    print "select: "+select
-    U.selection = select
-    prompt = getEntryPrompt(select)
-    print "prompt: "+str(prompt)
+    U.selection = var.get()
+    prompt = getEntryPrompt(U.selection)
     U.labelstring.set(prompt[0])
     entry.delete(0, END)
     entry.insert(0,prompt[1])
- 
+
 #============================================================
 # set up IOLab user callback routines
 analClass = AnalysisClass(analUserStart, analUserEnd, analUserLoop)
@@ -64,23 +60,26 @@ Label(leftframe, text="\n\n\n").pack()
 # and these need to be put into a StringVar object
 var = StringVar(leftframe)
 commandNames = set(G.cmdTypeNumDict.keys()) # list of possible commands
-defaultCommandString = G.cmdTypeNumDict.keys()[0]
+defaultCommandString = 'setFixedConfig'
 var.set(defaultCommandString)  # set the default command
+U.selection = defaultCommandString
 
 # set up the drop-down menu using the above list of commands
 Label(leftframe, text="Select command and \nprovide required playload").pack()
 commMenu = OptionMenu(leftframe, var, *commandNames, command = commandSelect)
 commMenu.pack(side=TOP, fill=X,padx=10,pady=10)
 
-# the entry box is for commands that require user data
-prompt = getEntryPrompt(defaultCommandString)
-
+# the entry box is for commands that require a payload
+# first set up the label under the box and the default values in the box 
+prompt = getEntryPrompt(U.selection)
 U.labelstring = StringVar(leftframe)
 U.labelstring.set(prompt[0])
-entrylabel = Label(leftframe, textvariable=U.labelstring).pack()
+
+# create the Entry box and place the label under it. 
 entry = Entry(leftframe)
 entry.pack(side=TOP,padx=10,pady=10)
 entry.insert(0,prompt[1])
+entrylabel = Label(leftframe, textvariable=U.labelstring).pack()
 
 # the button is for sending selected commands to IOLab
 button1 = Button(leftframe,text = "Send Command",command = button1Action)
@@ -106,6 +105,7 @@ cTxframe.pack(side = TOP , fill=BOTH, expand=1)
 scrollbarCommTx = Scrollbar(cTxframe, orient=VERTICAL)
 U.listBoxCommTx = Listbox(cTxframe, yscrollcommand=scrollbarCommTx.set)
 scrollbarCommTx.config(command=U.listBoxCommTx.yview)
+# pack stuff
 scrollbarCommTx.pack(side=RIGHT, fill=Y)
 U.listBoxCommTx.pack(fill=BOTH, expand=1,padx=5,pady=5)
 
@@ -117,6 +117,7 @@ cRxframe.pack(side = TOP , fill=BOTH, expand=1)
 scrollbarCommRx = Scrollbar(cRxframe, orient=VERTICAL)
 U.listBoxCommRx = Listbox(cRxframe, yscrollcommand=scrollbarCommRx.set)
 scrollbarCommRx.config(command=U.listBoxCommRx.yview)
+# pack stuff
 scrollbarCommRx.pack(side=RIGHT, fill=Y)
 U.listBoxCommRx.pack(fill=BOTH, expand=1,padx=5,pady=5)
 
@@ -125,12 +126,13 @@ U.listBoxCommRx.pack(fill=BOTH, expand=1,padx=5,pady=5)
 dframe = Frame(rightframe)
 dframe.pack(side = TOP , fill=BOTH, expand=1)
 
-# create scrollbar and data listbox and bind them together
+# create x and y scrollbars and a data listbox and bind them all together
 scrollbarData = Scrollbar(dframe, orient=VERTICAL)
 scrollbarDatax = Scrollbar(dframe, orient=HORIZONTAL)
 U.listBoxData = Listbox(dframe, xscrollcommand=scrollbarDatax.set, yscrollcommand=scrollbarData.set)
 scrollbarData.config(command=U.listBoxData.yview)
 scrollbarDatax.config(command=U.listBoxData.xview)
+# pack stuff
 scrollbarData.pack(side=RIGHT, fill=Y)
 scrollbarDatax.pack(side=BOTTOM, fill=X)
 U.listBoxData.pack(fill=BOTH, expand=1,padx=5,pady=5)
@@ -145,3 +147,4 @@ print "Quitting..."
 
 # shut down the IOLab data acquisition
 shutItDown()
+
