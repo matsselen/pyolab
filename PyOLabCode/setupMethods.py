@@ -23,7 +23,8 @@ threads to fetch and analyze data, and calling code to analyze these data.
 """
 
 #=================================================
-# setup some useful lists and inverse dictionaries
+# setup some useful lists and inverse dictionaries that are 
+# defined but not initialized in pyolabGlobals.py
 def setupGlobalVariables():
 
     # set up list of valid record types
@@ -72,6 +73,10 @@ def startItUp():
         G.analThread.start()
 
         # set up some more stuff that will be needed for analysis:
+
+        # log file
+        if G.logData:
+            G.logFile = open('log.txt','w') # file opened in pwd
 
         # output file
         if G.dumpData:

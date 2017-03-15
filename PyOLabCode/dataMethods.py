@@ -164,8 +164,10 @@ def decodeDataPayloads():
 
             # this should be the same as the number expected for this config
             if nSens != len(G.lastSensorBytes):
-                print "sensors found "+str(nSens)+" expected "+str(len(G.lastSensorBytes))
-                print "this can happen if you havent sent a getPacketConfig command"
+
+                if G.logData:
+                    G.logFile.write("\nsensors found "+str(nSens)+" expected "+str(len(G.lastSensorBytes)))
+                    G.logFile.write("this can happen if you havent sent a getPacketConfig command")
 
             i = 7        # pointer to info and data from first sensor
             nSaved = 0   # the number of sensors we have saved data from
@@ -175,8 +177,8 @@ def decodeDataPayloads():
                 recSequence = r[2]                  # byte incremented every record
 
                 # the first couple if records may have the overflow bit set
-                #if sensorOverflow:
-                #    print "overflow on recSequence " +str(recSequence)+" sensor "+str(thisSensor)
+                if G.logData:
+                    G.logFile.write("\noverflow on recSequence " +str(recSequence)+" sensor "+str(thisSensor))
 
                 # make sure thisSensor is on the list of expected sensors for this config
                 if thisSensor in G.lastSensorBytes:
@@ -186,8 +188,10 @@ def decodeDataPayloads():
                     # this is where the the good stuff happens
                     extractSensorData(thisSensor,sensorBytes)
                 else:
-                    # if we ever get here we need to tell Mats there is a problem. 
-                    print "Bailing out after finding wrong sensor: " +str(thisSensor) + " in " + str(r)
+                    # if we ever get here we need to tell Mats there is a problem.
+                    if G.logData:
+                        G.logFile.write("\nBailing out after finding wrong sensor: " +str(thisSensor) + " in " + str(r))
+
                     return
 
                 nSaved += 1
