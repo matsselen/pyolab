@@ -58,7 +58,7 @@ Example of some global user variables used by the user methods.
 
 ## guiExample 
 
-This folder contains example user code that uses implements a GUI (using Tkinter) to send and receive IOLab records and implements a multi-threaded data acquisition system similar to the one in __DaqExample__:
+This folder contains example user code that implements a GUI (using Tkinter) to send and receive IOLab records and implements a multi-threaded data acquisition system similar to the one in __DaqExample__:
 
 * __userExample.py__  
 Example of some _main()_ code that sets up a GUI, opens the serial port, launches data fetching and data analysis threads, 
