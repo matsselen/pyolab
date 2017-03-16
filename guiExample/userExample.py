@@ -61,7 +61,7 @@ def main():
     
     # create the root window
     root = Tk()
-    root.geometry('800x800')
+    root.geometry('800x700')
     root.title("IOLab Test Application")
     
     #-------------------------------------------

@@ -108,11 +108,12 @@ class G(object):
                    recType_NACK                 :'NACK'
                    }
 
-    # as initialized in startItUp(),this will the inverse dictionary of the abovr
+    # as initialized in setupGlobalVariables(), called by startItUp(),
+    # this is the inverse dictionary of recTypeDict
     recTypeNumDict = {}
 
-    # as initialized in startItUp(),this will a list of the record types 
-    # that findRecords() will look for
+    # as initialized in setupGlobalVariables(), called by startItUp(), 
+    # this will a list of the record types that findRecords() will look for
     recTypeList = []
 
     #
@@ -133,7 +134,8 @@ class G(object):
         0x2B :'powerDown'         # [0x02, 0x2B, 0x01, remote, 0x0A] 
         }
 
-    # as initialized in startItUp(),this will the inverse dictionary of the above
+    # as initialized in setupGlobalVariables(), called by startItUp(),
+    # this will the inverse dictionary of the above
     cmdTypeNumDict = {}
 
     #=======================================================================
