@@ -99,8 +99,8 @@ def main():
     entrylabel = Label(leftframe, textvariable=U.labelstring).pack()
     
     # the button is for sending selected commands to IOLab
-    Label(leftframe, text="\n\n\nClick GO to send",font=("Arial", 16)).pack()
-    button1 = Button(leftframe,text = " GO ",command = button1Action)
+    Label(leftframe, text="\n\n\nClick SEND to send",font=("Arial", 16)).pack()
+    button1 = Button(leftframe,text = " SEND ",command = button1Action)
     button1.pack(side=TOP, padx=10,pady=10)
     
     #-------------------------------------------
