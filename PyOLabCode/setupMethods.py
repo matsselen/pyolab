@@ -22,6 +22,31 @@ threads to fetch and analyze data, and calling code to analyze these data.
 
 """
 
+#=================================================
+# setup some useful lists and inverse dictionaries that are 
+# defined but not initialized in pyolabGlobals.py
+def setupGlobalVariables():
+
+    # set up list of valid record types
+    G.recTypeList = G.recTypeDict.keys()
+
+    # initialize dictionary to go from command names to numbers
+    for keyNum in G.cmdTypeDict:
+        G.cmdTypeNumDict[G.cmdTypeDict[keyNum]] = keyNum
+
+    # initialize dictionary to go from record names to numbers
+    for keyNum in G.recTypeDict:
+        G.recTypeNumDict[G.recTypeDict[keyNum]] = keyNum
+
+    # dictionary that will hold data records received on serial port
+    for recType in G.recTypeList:
+        G.recDict[recType] = []
+
+    # set up the of lists that will hold uncalibrated sensor data
+    sensorList = sensorName('SensorList')
+    for sensNum in sensorList:
+        G.uncalDataDict[sensNum] = []
+
 #===============================================
 # This starts up the pyolab software framework by:   
 #   1) setting up the serial port that the IOLab Dongle is plugged into
@@ -47,7 +72,24 @@ def startItUp():
         G.analThread = Thread(target=analyzeDataThread)
         G.analThread.start()
 
+        # set up some more stuff that will be needed for analysis:
+
+        # log file
+        if G.logData:
+            G.logFile = open('log.txt','w') # file opened in pwd
+
+        # output file
+        if G.dumpData:
+            G.outputFile = open('data.txt','w') # file opened in pwd
+
+        # create some useful global lists & dictionaries
+        setupGlobalVariables()
+
+        # call the user code that is executed at the beginning of a job
+        AnalysisClass.handle.analStart()
+
         return True
+
     else:
         print "Can't open the comm port - is there a dongle plugged in?"
         return False
@@ -128,21 +170,6 @@ def readData():
 def analyzeDataThread():
 
     print "In analyzeDataThread: " + str(G.sleepTimeAnal)
-
-    # set up dictionary that will hold data records received on serial port
-    for recType in G.recTypeList:
-        G.recDict[recType] = []
-
-    if G.dumpData:
-        G.outputFile = open('data.txt','w') # file opened in pwd
-
-    # user code that is called at the beginning
-    AnalysisClass.handle.analStart()
-
-    # set up the of lists that will hold uncalibrated sensor data
-    sensorList = sensorName('SensorList')
-    for sensNum in sensorList:
-        G.uncalDataDict[sensNum] = []
 
     # keep looping as long as G.running is True
     while G.running:

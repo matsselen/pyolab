@@ -70,7 +70,7 @@ def analUserEnd():
 def analUserLoop():
     U.analUserCalls += 1
 
-    # print any new accelerometer data to teh screen
+    # print any new accelerometer data to the screen
     # the sys.stdout.write and .flush makes it appear on the same line
     #
     nData = len(G.uncalDataDict[U.sensNum])

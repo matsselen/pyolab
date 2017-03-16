@@ -20,6 +20,33 @@ from the IOLab system.
 
 """
 
+#=================================
+# returns the n'th record received
+#
+def getAllRec(n):
+    if n < len(G.allRecList):
+        return G.recDict[G.allRecList[n][0]][G.allRecList[n][1]]
+    else:
+        return []
+
+#=========================================
+# returns the n'th data record received
+#
+def getDataRec(n):
+    if n < len(G.dataRecList):
+        return G.recDict[G.dataRecList[n][0]][G.dataRecList[n][1]]
+    else:
+        return []
+
+#=========================================
+# returns the n'th command record received
+#
+def getCommRec(n):
+    if n < len(G.commRecList):
+        return G.recDict[G.commRecList[n][0]][G.commRecList[n][1]]
+    else:
+        return []
+
 
 #===========================================================================================
 # This method spins through the raw data array and finds the actual data packet records received 
@@ -49,7 +76,18 @@ def findRecords():
                         if G.dataList[i+3+ndata] == 0xa:
                             # if SOP, BC, and EOP are all consistent then save the record
                             rec = G.dataList[i:i+4+ndata]
-                            # add record to the appropriate list
+                            index = len(G.recDict[recType])
+
+                            # all records: [recType,index] points into recDict[recType][index]
+                            G.allRecList.append([recType,index])
+                            if recType == G.recType_dataFromRemote:
+                                # data records: [recType,index] points into recDict[recType][index]
+                                G.dataRecList.append([recType,index])
+                            else:
+                                # command records: [recType,index] points into recDict[recType][index]
+                                G.commRecList.append([recType,index])
+
+                            # add record to the appropriate list in the record dictionary
                             G.recDict[recType].append(rec)
                             # if the thing we just received was a NACK it means a command was
                             # not properly serviced, so we should tell someone
@@ -118,6 +156,15 @@ def findLastConfig():
 # extractSensorData() to extract raw sensor data from these 
 #
 def decodeDataPayloads():
+
+    # we can only do this if we know what sensors to expect
+    if len(G.lastSensorBytes) == 0:
+        if G.logData:
+            G.logFile.write("\n len(G.lastSensorBytes) = " + str(len(G.lastSensorBytes)))
+            G.logFile.write("this will happen if you haven't sent a getPacketConfig command")
+        return
+
+
     nRec = len(G.recDict[G.recType_dataFromRemote])
     if nRec > G.nextRecord:
         for n in range(G.nextRecord,nRec):
@@ -126,7 +173,10 @@ def decodeDataPayloads():
 
             # this should be the same as the number expected for this config
             if nSens != len(G.lastSensorBytes):
-                print "sensors found "+str(nSens)+" expected "+str(len(G.lastSensorBytes))
+
+                if G.logData:
+                    G.logFile.write("\nsensors found "+str(nSens)+" expected "+str(len(G.lastSensorBytes)))
+                    G.logFile.write("this can happen if you havent sent a getPacketConfig command")
 
             i = 7        # pointer to info and data from first sensor
             nSaved = 0   # the number of sensors we have saved data from
@@ -136,8 +186,8 @@ def decodeDataPayloads():
                 recSequence = r[2]                  # byte incremented every record
 
                 # the first couple if records may have the overflow bit set
-                #if sensorOverflow:
-                #    print "overflow on recSequence " +str(recSequence)+" sensor "+str(thisSensor)
+                if G.logData:
+                    G.logFile.write("\noverflow on recSequence " +str(recSequence)+" sensor "+str(thisSensor))
 
                 # make sure thisSensor is on the list of expected sensors for this config
                 if thisSensor in G.lastSensorBytes:
@@ -147,8 +197,10 @@ def decodeDataPayloads():
                     # this is where the the good stuff happens
                     extractSensorData(thisSensor,sensorBytes)
                 else:
-                    # if we ever get here we need to tell Mats there is a problem. 
-                    print "Bailing out after finding wrong sensor: " +str(thisSensor) + " in " + str(r)
+                    # if we ever get here we need to tell Mats there is a problem.
+                    if G.logData:
+                        G.logFile.write("\nBailing out after finding wrong sensor: " +str(thisSensor) + " in " + str(r))
+
                     return
 
                 nSaved += 1

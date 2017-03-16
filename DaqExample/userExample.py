@@ -41,14 +41,6 @@ def main():
     # See comments in userMethods.py for more details. 
     #
     
-    # This causes the raw data to be dumped to a file called "data.txt" in
-    # the working directory
-    G.dumpData = True
-    
-    if not startItUp():
-        print "Problems getting things started...bye"
-        os._exit(1)
-    
     # This instantiates an object that holds information about which user analysis
     # methods are to be called by the main analysis code. Doing it it this way removes
     # the need for the analysis code to know about the user code in advance.
@@ -56,6 +48,14 @@ def main():
     # are all localed in the local file "userMethods.py"
     #
     analClass = AnalysisClass(analUserStart, analUserEnd, analUserLoop)
+    
+    # This causes the raw data to be dumped to a file called "data.txt" in
+    # the working directory
+    G.dumpData = True
+    
+    if not startItUp():
+        print "Problems getting things started...bye"
+        os._exit(1)
     
     # Loop to get user commands.
     while G.running:
