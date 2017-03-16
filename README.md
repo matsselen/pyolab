@@ -2,7 +2,7 @@
 
 ## Overview
 
-PyOLab is a suite of Python (2.7) routines that gives users complete control of an IOLab system. The archive contains a folder containing the PyOLab library code (__PyOLabCode__), two folders containing example user code (__HelloWorld__ and __DaqExample__), and a folder containing Documentation referred to in the code (__Documentation__). 
+PyOLab is a suite of Python (2.7) routines that gives users complete control of an IOLab system. The archive contains a folder containing the PyOLab library code (__PyOLabCode__), three folders containing example user code (__HelloWorld__, __DaqExample__, and __guiExample__), and a folder containing Documentation referred to in the code (__Documentation__). 
 
 If you are new to Python you can get a great free release from [Anaconda](https://www.continuum.io/downloads). You will also need to get [PySerial](http://pyserial.readthedocs.io/en/latest/) (more info below). There is plenty of on-line support and documentation for [learning Python](https://www.python.org/about/gettingstarted/). 
 
@@ -52,7 +52,22 @@ Examples of user routines that are called by the system during data
 analysis to expose the user to the acquired data. In this example the user code prints out any accelerometer data that 
 is received from the remote, and at the end of the job it prints a summary of the records and data that were received from the system.   
 * __userGlobals.py__  
-Example of some global user variables used by the user methods (may not be needed by your code). 
+Example of some global user variables used by the user methods. 
+
+---
+
+## guiExample 
+
+This folder contains example user code that uses implements a GUI using Tkinter to send and receive IOLab records, and implementing a multi-threaded data acquisition system similar to the one in __DaqExample__:
+
+* __userExample.py__  
+Example of some _main()_ code that sets up a GUI, opens the serial port, launches data fetching and data analysis threads, 
+and then waits for user input.
+* __userMethods.py__  
+Examples of user routines that are called by the system during data 
+analysis to expose the user to the acquired data. In this example the user code prints displays any records eitehr sent to, or received from, the system to the GUI.   
+* __userGlobals.py__  
+Example of some global user variables used by the user methods. 
 
 ---
 
