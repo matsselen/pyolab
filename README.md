@@ -4,11 +4,7 @@
 
 PyOLab is a suite of Python (2.7) routines that gives users complete control of an IOLab system. The archive contains a folder containing the PyOLab library code (__PyOLabCode__), three folders containing example user code (__HelloWorld__, __DaqExample__, and __guiExample__), and a folder containing Documentation referred to in the code (__Documentation__). 
 
-Use this code at your own risk in accordance with Open Source BSD-3-Clause license. 
-
-## Getting Started
-See the section called ___Some notes on getting started___ at the bottom of this page.
-
+There are detailed instructions for __Getting Started__ at the bottom of this page.
 
 ## PyOLabCode 
 
@@ -72,7 +68,7 @@ Example of some global user variables used by the user methods.
 
 ---
 
-## Some notes on getting started
+## Getting Started
 
 Getting up and running with IOLab using Python should be straightforward. In this section I will assume you just removed your IOLab from the box and have done nothing else. I have tested the following procedure on Mac and Windows and I assume the Linux installation will be very similar to the Mac procedure, so if you are trying this on Linux please let me know how it goes.
 
@@ -82,9 +78,14 @@ FYI: This is the same step required if you are using the IOLab application that 
 
 __2. Getting Python 2.7:__ Go to [Anaconda](https://www.continuum.io/downloads) and follow the directions to get a free installation of Python 2.7 on your computer (do __not install Python 3.6__, this is slightly different and will not work). 
 
-A nice bonus of this installation for Windows users is that it also installs an application called _Anaconda Prompt_, which provides a command-line interface that will be very useful. Mac and Linux users can just use the native terminal window whenever you need a command prompt. 
+A nice bonus of this installation for Windows users is that it also installs an application called _Anaconda Prompt_, which provides a command-line interface that will be very useful. Mac and Linux users can just use the native terminal window whenever you need a command-line interface. 
 
-__3. Installing PySerial:__ Open up a terminal window (or _Anaconda Prompt_ if you are using Windows), and type `pip install pyserial`. The PySerial module will be added to your Python configuration. 
+__3. Installing PySerial:__ Open up a command-line interface (_Anaconda Prompt_ a terminal window), and type `pip install pyserial`. The PySerial module will be added to your Python configuration. 
 
 __4. Run the example code:__ You are now ready to try it out. Plug in your Dongle and turn on your Remote. If you are running from a command line, _cd_ to one of the example folders and then type `python userExample.py` to run it. If you are using Anaconda's _Spyder_ application, open one of the _userExample.py_ files using the GUI and click the Run button.
+
+---
+
+## License
+Use this code at your own risk in accordance with the Open Source BSD-3-Clause license. 
 
