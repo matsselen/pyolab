@@ -37,7 +37,7 @@ def getIOLabPortName():
     pList = []
     for port in ports:
          pInfo = list(port)
-         if 'IOLab USB Dongle' in pInfo[1]:
+         if 'IOLab' in pInfo[1]:
             pList.append(pInfo)
 
     nFound = len(pList)
