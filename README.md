@@ -86,5 +86,5 @@ A nice bonus of this installation for Windows users is that it also installs an 
 
 __3. Installing PySerial:__ Open up a terminal window (or _Anaconda Prompt_ if you are using Windows), and type `pip install pyserial`. The PySerial module will be added to your Python configuration. 
 
-__4. You are now ready to try it out. Plug in your Dongle and turn on your Remote. If you are running from a command line, _cd_ to one of the example folders and then type `python userExample.py` to run it. If you are using Anaconda's _Spyder_ application, open one of the _userExample.py_ files using the GUI and click the Run button.
+__4. Run the example code:__ You are now ready to try it out. Plug in your Dongle and turn on your Remote. If you are running from a command line, _cd_ to one of the example folders and then type `python userExample.py` to run it. If you are using Anaconda's _Spyder_ application, open one of the _userExample.py_ files using the GUI and click the Run button.
 
