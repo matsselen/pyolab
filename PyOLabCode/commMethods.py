@@ -139,7 +139,7 @@ def getSensorConfig(s,remote):
 def setOutputConfig(s,idValueList,remote):
 
     nPairs  = len(idValueList)/2 
-    payload = [remote,npairs]+idValueList
+    payload = [remote,nPairs]+idValueList
     nBytes  = len(payload)
 
     command = 0x24

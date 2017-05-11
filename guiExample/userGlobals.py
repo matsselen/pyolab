@@ -31,7 +31,7 @@ class U(object):
     listBoxCommRx = ''
     listBoxCommTx = ''
     listBoxData   = ''
-    labelstring   = ''
+    #labelstring   = ''
 
     commandList = [  
         'startData',

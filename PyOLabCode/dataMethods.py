@@ -161,7 +161,7 @@ def decodeDataPayloads():
     if len(G.lastSensorBytes) == 0:
         if G.logData:
             G.logFile.write("\n len(G.lastSensorBytes) = " + str(len(G.lastSensorBytes)))
-            G.logFile.write("this will happen if you haven't sent a getPacketConfig command")
+            G.logFile.write(" this will happen if you haven't sent a getPacketConfig command")
         return
 
 
@@ -169,7 +169,9 @@ def decodeDataPayloads():
     if nRec > G.nextRecord:
         for n in range(G.nextRecord,nRec):
             r = G.recDict[G.recType_dataFromRemote][n]
-            nSens = r[6] # number of sensors in this data record
+
+            recSequence = r[5]  # record sequence byte (incremented every record)
+            nSens = r[6]        # number of sensors in this data record
 
             # this should be the same as the number expected for this config
             if nSens != len(G.lastSensorBytes):
@@ -183,11 +185,10 @@ def decodeDataPayloads():
             while nSaved < nSens:
                 thisSensor = r[i] & 0x7F            # ID of the current sensor
                 sensorOverflow = r[i] > thisSensor  # is overflow bit set?
-                recSequence = r[2]                  # byte incremented every record
 
                 # the first couple if records may have the overflow bit set
-                if G.logData:
-                    G.logFile.write("\noverflow on recSequence " +str(recSequence)+" sensor "+str(thisSensor))
+                if G.logData and sensorOverflow:
+                    G.logFile.write("\noverflow on recSequence " +str(recSequence)+" sensor "+str(thisSensor)+" nSaved "+str(nSaved)+" nSens "+str(nSens))
 
                 # make sure thisSensor is on the list of expected sensors for this config
                 if thisSensor in G.lastSensorBytes:

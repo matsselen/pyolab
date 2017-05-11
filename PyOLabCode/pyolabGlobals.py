@@ -19,8 +19,8 @@ class G(object):
     sleepTimeRead = 0.05 # time to sleep each read loop
     sleepTimeAnal = 0.11 # time to sleep each read loop
     sleepCommand  = 0.10 # time to sleep after a command is sent
-    dumpData    = True  # if True the base analysis code dumps data to a file
-    logData     = True   # if True code writes info/error messages to a file
+    dumpData    = False   # if True the base analysis code dumps data to a file
+    logData     = False   # if True code writes info/error messages to a file
     running     = True   # used to signal treads to quit
     configIsSet = False  # is it?
 

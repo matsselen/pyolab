@@ -11,7 +11,6 @@ import sys
 import time
 from Tkinter import *
 
-
 # local common code
 sys.path.append('../PyOLabCode/')
 from pyolabGlobals import G
