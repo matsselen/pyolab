@@ -2,7 +2,7 @@
 
 ## Overview
 
-PyOLab is a suite of Python (2.7) routines that gives users complete control of an IOLab system. The archive contains a folder containing the PyOLab library code (__PyOLabCode__), four folders containing example user code (__HelloWorld__, __DaqExample__, __guiExample__, and __OutputExample__), and a folder containing Documentation referred to in the code (__Documentation__). 
+PyOLab is a suite of Python (2.7) routines that gives users complete control of an IOLab system. The archive contains a folder containing the PyOLab library code (__PyOLabCode__), four folders containing example user code (__HelloWorld__, __DaqExample__, __guiExample__, and __AnalogExample__), and a folder containing Documentation referred to in the code (__Documentation__). 
 
 There are detailed instructions for __Getting Started__ at the bottom of this page.
 
@@ -68,9 +68,9 @@ Example of some global user variables used by the user methods.
 
 ---
 
-## OutputExample 
+## AnalogtExample 
 
-Under Construction. This folder will contains example user code that allows the user to control various OutputConfig functions via a GUI.
+Sample code that reads the A7, A8, A9 analog inputs and controls the DAC output.
 
 ---
 
