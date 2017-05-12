@@ -54,6 +54,13 @@ def setupGlobalVariables():
 # 
 def startItUp():
 
+    # open log file if needed
+    if G.logData:
+        G.logFile = open('log.txt','w') # file opened in pwd
+    # open output file if needed
+    if G.dumpData:
+        G.outputFile = open('data.txt','w') # file opened in pwd
+
     # Start by finding the serial port that the IOLab dongle is plugged into
     portName = getIOLabPortName()
     
@@ -74,14 +81,6 @@ def startItUp():
 
         # set up some more stuff that will be needed for analysis:
 
-        # log file
-        if G.logData:
-            G.logFile = open('log.txt','w') # file opened in pwd
-
-        # output file
-        if G.dumpData:
-            G.outputFile = open('data.txt','w') # file opened in pwd
-
         # create some useful global lists & dictionaries
         setupGlobalVariables()
 
@@ -92,6 +91,8 @@ def startItUp():
 
     else:
         print "Can't open the comm port - is there a dongle plugged in?"
+        if G.logData:
+            G.logFile.write("\nCan't open the comm port - is there a dongle plugged in?")
         return False
 
 
@@ -99,20 +100,27 @@ def startItUp():
 # This shuts down the pyolab software framework by:   
 #   1) signaling the reading and analysis threads to stop
 #   2) pausing until these threads have indeed stopped
+#   3) to be safe, send a signal to the IOLab remote to stop aquiring data. 
+#      (it may not be aquiring data, but it doesnt hurt to make sure)
 #   3) sending a signal to the IOLab remote to power itself down 
 # 
 def shutItDown():
 
     #signal that we want to quit
     G.running = False
-    print "signaling exit"
+    if G.logData:
+        G.logFile.write("\nsignaling exit")
 
     #require that each thread finish before exiting
     G.readThread.join()
     G.analThread.join()
-    print "all threads finished"
+    if G.logData:
+        G.logFile.write("\nall threads finished")
 
-    print "power down remote 1"
+    if G.logData:
+        G.logFile.write("\npower down remote 1")
+
+    stopData(G.serialPort)
     powerDown(G.serialPort,1)
 
 
@@ -122,7 +130,8 @@ def shutItDown():
 #
 def readDataThread():
 
-    print "In readDataThread: " + str(G.sleepTimeRead)
+    if G.logData:
+        G.logFile.write("\nIn readDataThread: " + str(G.sleepTimeRead))
   
     # keep looping as long as G.running is True
     while G.running:
@@ -130,7 +139,8 @@ def readDataThread():
         G.dataList.extend(newdata)
         time.sleep(G.sleepTimeRead)
 
-    print "Exiting readDataThread"
+    if G.logData:
+        G.logFile.write("\nExiting readDataThread")
 
 
 #======================================
@@ -150,7 +160,8 @@ def readData():
         # since the pyserial input buffer seems to be limited to just over 1000 bytes, 
         # send a warning if we are getting too close so we can reduce "sleepTime"
         if nwait > 1000: 
-            print str(nwait) + ": careful with that buffer, Eugene"
+            if G.logData:
+                G.logFile.write("\n" + str(nwait) + ": careful with that buffer, Eugene")
 
     # This part takes the raw data and turns in into a list of bytes. 
     dList = []
@@ -169,7 +180,8 @@ def readData():
 #
 def analyzeDataThread():
 
-    print "In analyzeDataThread: " + str(G.sleepTimeAnal)
+    if G.logData:
+        G.logFile.write("\nIn analyzeDataThread: " + str(G.sleepTimeAnal))
 
     # keep looping as long as G.running is True
     while G.running:
@@ -177,7 +189,8 @@ def analyzeDataThread():
         G.dataPointer = newPointer
         time.sleep(G.sleepTimeAnal)
 
-    print "Exiting analyzeDataThread"
+    if G.logData:
+        G.logFile.write("\nExiting analyzeDataThread")
 
     # user code that is called at the end
     AnalysisClass.handle.analEnd()

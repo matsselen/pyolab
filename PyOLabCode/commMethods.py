@@ -44,15 +44,19 @@ def getIOLabPortName():
 
     if nFound == 0:
         print "Found no IOLab USB Dongles"
+        if G.logData:
+            G.logFile.write("\nFound no IOLab USB Dongles")
     
     else:
 
         p = pList[0][0]
         if nFound == 1:
-            print "Found IOLab USB Dongle: " + p
+            if G.logData:
+                G.logFile.write("\nFound IOLab USB Dongle: " + p)
         else:
-            print "Warning: found " +str(nFound)+ " IOLab USB Dongles."
-            print "Using the first one found: " + p
+            if G.logData:
+                G.logFile.write("\nWarning: found " +str(nFound)+ " IOLab USB Dongles.")
+                G.logFile.write("\nUsing the first one found: " + str(p))
 
     return p
 
@@ -139,7 +143,7 @@ def getSensorConfig(s,remote):
 def setOutputConfig(s,idValueList,remote):
 
     nPairs  = len(idValueList)/2 
-    payload = [remote,npairs]+idValueList
+    payload = [remote,nPairs]+idValueList
     nBytes  = len(payload)
 
     command = 0x24
