@@ -20,9 +20,11 @@ class U(object):
 
     analUserCalls = 0           # how many times analUserLoop() has been called
                                 # (just for example - not needed in your own code)
-
+                                
+    # keep track of some stuff used for calculating averages
     lastA7 = 0
     lastA8 = 0
     lastA9 = 0
     lastHG = 0
+
 

@@ -27,8 +27,6 @@ so that users can create their own analysis jobs.
 These user methods are a handy way to try and isolate the user code from the 
 library code.  
 
-
-
 """
 
 #======================================================================
@@ -36,7 +34,13 @@ library code.
 #
 def analUserStart():
     print "in analUserStart()"
-    print "\n MAKE SURE YOUR REMOTE IS TURNED ON \n"
+    print "\n Make sure your remote is turned on. \n"
+
+    # set up analog inputs with 3.3V reference
+    print "setting up the remote to measure voltages..."
+    setFixedConfig(G.serialPort,12,1)
+    getFixedConfig(G.serialPort,1)
+    getPacketConfig(G.serialPort,1)        
 
 
 #======================================================================
@@ -109,18 +113,12 @@ def analUserLoop():
     aveA7 = aveA7/adcPerVolt_A
     aveA8 = aveA8/adcPerVolt_A
     aveA9 = aveA9/adcPerVolt_A
-    #aveHG = (aveHG-offsetHG)/adcPerMilliVolt_HG
+    aveHG = (aveHG-offsetHG)/adcPerMilliVolt_HG
 
     U.txtA7.set('A7=%5.3f V'%aveA7)
     U.txtA8.set('A8=%5.3f V'%aveA8)
     U.txtA9.set('A9=%5.3f V'%aveA9)
-
-    # print any new analog input data to the screen
-    # the sys.stdout.write and .flush makes it appear on the same line
-
-    #sys.stdout.write('%s\r' % '                                  ') # clear previous line
-    #sys.stdout.write('%5.3f %5.3f %5.3f %6.3f\r' % (aveA7, aveA8, aveA9, aveHG))   # print data
-    #sys.stdout.flush()
+    #U.txtHG.set('HG=%6.3f V'%aveHG)
 
 
     

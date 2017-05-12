@@ -92,7 +92,8 @@ def findRecords():
                             # if the thing we just received was a NACK it means a command was
                             # not properly serviced, so we should tell someone
                             if recType == G.recType_NACK:
-                                print " NACK: " + str(rec)
+                                if G.logData:
+                                    G.logFile.write("\nNACK: " + str(rec))
 
                             # figure out where we are starting next
                             G.nextData = i + 4 + ndata # where the next record starts
@@ -100,7 +101,8 @@ def findRecords():
                             break
                         else:
                             # shouldn't ever get here but check just in case
-                            print "guessed wrong recType ' + hex(recType) + ' at i = "+str(i)
+                            if G.logData:
+                                G.logFile.write("\nguessed wrong recType ' + hex(recType) + ' at i = "+str(i))
                     else:
                         break
             i += 1
@@ -124,7 +126,8 @@ def findLastConfig():
     # if new, save it and print it
     if fc != G.lastFixedConfig:        
         G.lastFixedConfig = fc
-        print "New fixed configuration " + str(fc)
+        if G.logData:
+            G.logFile.write("\nNew fixed configuration " + str(fc))
 
 
     # look for packet config information
@@ -146,10 +149,9 @@ def findLastConfig():
         G.lastSensorBytes = sc     # save it
         G.configIsSet = True
 
-
-        print "New packet configuration " + str(pc)
-        print "New sensor configuration " + str(sc)
-
+        if G.logData:
+            G.logFile.write("\nNew packet configuration " + str(pc))
+            G.logFile.write("\nNew sensor configuration " + str(sc))
 
 #===================================================================
 # Extracts the payload data from dataFromRemote records and calls 
@@ -267,7 +269,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Accelerometer':
         # data comes in 6 byte blocks
         if(len(data)%6 > 0):
-            print "Accelerometer data not a multiple of 6 bytes"
+            if G.logData:
+                G.logFile.write("\nAccelerometer data not a multiple of 6 bytes")
         else:
             nsets = len(data)/6
             for i in range(nsets):
@@ -288,7 +291,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Magnetometer':
         # data comes in 6 byte blocks
         if(len(data)%6 > 0):
-            print "Magnetometer data not a multiple of 6 bytes"
+            if G.logData:
+                G.logFile.write("\nMagnetometer data not a multiple of 6 bytes")
         else:
             nsets = len(data)/6
             for i in range(nsets):
@@ -307,7 +311,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Gyroscope':
         # data comes in 6 byte blocks
         if(len(data)%6 > 0):
-            print "Gyroscope data not a multiple of 6 bytes"
+            if G.logData:
+                G.logFile.write("\nGyroscope data not a multiple of 6 bytes")
         else:
             nsets = len(data)/6
             for i in range(nsets):
@@ -326,7 +331,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Microphone':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Microphone data not a multiple of 2 bytes"
+            if G.logData:
+                G.logFile.write("\nMicrophone data not a multiple of 2 bytes")
         else:
             nsets = len(data)/2
             for i in range(nsets):
@@ -341,7 +347,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Light':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Light data not a multiple of 2 bytes"
+            if G.logData:
+                G.logFile.write("\nLight data not a multiple of 2 bytes")
         else:
             nsets = len(data)/2
             for i in range(nsets):
@@ -358,7 +365,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Force':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Force data not a multiple of 2 bytes"
+            if G.logData:
+                G.logFile.write("\nForce data not a multiple of 2 bytes")
         else:
             nsets = len(data)/2
             for i in range(nsets):
@@ -374,7 +382,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Wheel':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Wheel data not a multiple of 2 bytes"
+            if G.logData:
+                G.logFile.write("\nWheel data not a multiple of 2 bytes")
         else:
             nsets = len(data)/2
             for i in range(nsets):
@@ -394,7 +403,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'HighGain':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "HighGain data not a multiple of 2 bytes"
+            if G.logData:
+                G.logFile.write("\nHighGain data not a multiple of 2 bytes")
         else:
             nsets = len(data)/2
             for i in range(nsets):
@@ -411,7 +421,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Analog7':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Analog7 data not a multiple of 2 bytes"
+            if G.logData:
+                G.logFile.write("\nAnalog7 data not a multiple of 2 bytes")
         else:
             nsets = len(data)/2
             for i in range(nsets):
@@ -428,7 +439,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Analog8':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Analog8 data not a multiple of 2 bytes"
+            if G.logData:
+                G.logFile.write("\nAnalog8 data not a multiple of 2 bytes")
         else:
             nsets = len(data)/2
             for i in range(nsets):
@@ -445,7 +457,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Analog9':
         # data comes in 2 byte blocks
         if(len(data)%2 > 0):
-            print "Analog9 data not a multiple of 2 bytes"
+            if G.logData:
+                G.logFile.write("\nAnalog9 data not a multiple of 2 bytes")
         else:
             nsets = len(data)/2
             for i in range(nsets):
@@ -476,7 +489,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Barometer':
         # data comes in 4 byte blocks
         if(len(data)%4 > 0):
-            print "Barometer data not a multiple of 4 bytes"
+            if G.logData:
+                G.logFile.write("\nBarometer data not a multiple of 4 bytes")
         else:
             nsets = len(data)/4
             for i in range(nsets):
@@ -501,7 +515,8 @@ def extractSensorData(sensor,data):
     if sensorName(sensor) == 'Thermometer':
         # data comes in 4 byte blocks
         if(len(data)%4 > 0):
-            print "Thermometer data not a multiple of 4 bytes"
+            if G.logData:
+                G.logFile.write("\nThermometer data not a multiple of 4 bytes")
         else:
             nsets = len(data)/4
             for i in range(nsets):
