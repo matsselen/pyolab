@@ -25,6 +25,10 @@ dongle what its status is, receives the answer, and quits.
 
 def main():
 
+    # open log file if needed
+    if G.logData:
+        G.logFile = open('log.txt','w') # file opened in pwd
+
     # Start by finding the serial port that the IOLab dongle is plugged into
     print "\n"
     print "Looking for an IOLab dongle in one of the USB ports..."
