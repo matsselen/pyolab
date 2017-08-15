@@ -1,10 +1,10 @@
-# PyOLab 
+## Release Overview
 
-## Overview
+PyOLab is a suite of Python (2.7) routines that gives users complete control of an IOLab system. The archive contains a folder containing the PyOLab library code (__PyOLabCode__), three folders containing example user code (__HelloWorld__, __DaqExample__, and __guiExample__), and a folder containing Documentation referred to in the code (__Documentation__). 
 
-PyOLab is a suite of Python (2.7) routines that gives users complete control of an IOLab system. The archive contains a folder containing the PyOLab library code (__PyOLabCode__), four folders containing example user code (__HelloWorld__, __DaqExample__, __guiExample__, and __AnalogExample__), and a folder containing Documentation referred to in the code (__Documentation__). 
+There are detailed instructions for __Getting Started__ at the bottom of this page, and also in the __README.md__ file that is part of the release download.
 
-There are detailed instructions for __Getting Started__ at the bottom of this page.
+Note: The Library has been tested on OSX and Windows. I have not tested it on Linux. Please let me know if you do so. 
 
 ## PyOLabCode 
 
@@ -13,8 +13,7 @@ This folder contains a collection of methods to allow the user to open a serial 
 * __commMethods.py__ 
 Communication with the IOLab hardware via the USB virtual com port. 
 * __setupMethods.py__ 
-Focused on setting up the IOLab system, initializing the anynchronous threads that 
-fetch and unpack and decode data, calling user code to analyze these data, and shutting things down when finished.
+Focused on setting up the IOLab system, initializing the anynchronous threads that fetch and unpack and decode data, calling user code to analyze these data, and shutting things down when finished.
 * __dataMethods.py__ 
 Focused on decoding, organizing, and analyzing the data received from the IOLab system.
 * __iolabInfo.py__ 
@@ -32,23 +31,18 @@ This folder contains the simplest possible user code example to talk to the syst
 PyOLab library:
 
 * __userExample.py__ 
-Very simple _main()_ code that opens the serial port, asks the 
-dongle what its status is, receives the answer, and quits.
+Very simple _main()_ code that opens the serial port, asks the dongle what its status is, receives the answer, and quits.
 
 ---
 
 ## DaqExample 
 
-This folder contains a slightly more sophisticated user code example that uses the PyOLab 
-library to implement a multi-threaded data acquisition system:
+This folder contains a slightly more sophisticated user code example that uses the PyOLab library tomimplement a multi-threaded data acquisition system:
 
 * __userExample.py__ 
-Example of some _main()_ code that opens the serial port, launches data fetching and data analysis threads, 
-and then waits for user input.
+Example of some _main()_ code that opens the serial port, launches data fetching and data analysis threads, and then waits for user input.
 * __userMethods.py__ 
-Examples of user routines that are called by the system during data 
-analysis to expose the user to the acquired data. In this example the user code prints out any accelerometer data that 
-is received from the remote, and at the end of the job it prints a summary of the records and data that were received from the system. 
+Examples of user routines that are called by the system during data analysis to expose the user to the acquired data. In this example the user code prints out any accelerometer data that is received from the remote, and at the end of the job it prints a summary of the records and data that were received from the system. 
 * __userGlobals.py__ 
 Example of some global user variables used by the user methods. 
 
@@ -59,8 +53,7 @@ Example of some global user variables used by the user methods.
 This folder contains example user code that implements a GUI (using Tkinter) to send and receive IOLab records and implements a multi-threaded data acquisition system similar to the one in __DaqExample__:
 
 * __userExample.py__ 
-Example of some _main()_ code that sets up a GUI, opens the serial port, launches data fetching and data analysis threads, 
-and then waits for user input.
+Example of some _main()_ code that sets up a GUI, opens the serial port, launches data fetching and data analysis threads, and then waits for user input.
 * __userMethods.py__ 
 Examples of user routines that are called by the system during data  analysis to expose the user to the acquired data. In this example the user code displays records exchanged with the IOLab system using Listboxes on the GUI. 
 * __userGlobals.py__ 
@@ -68,12 +61,18 @@ Example of some global user variables used by the user methods.
 
 ---
 
-## AnalogtExample 
+## AnalogExample 
 
-Sample code that reads the A7, A8, A9 analog inputs and controls the DAC output.
+This folder contains example user code that implements a GUI interface to display the values (in Volts) of analog inputs A7, A8, A9, and provides a slider control to set the DAC output voltage:
+
+* __userExample.py__ 
+Example of some _main()_ code that sets up a GUI, opens the serial port, launches data fetching and data analysis threads, and then waits for user input.
+* __userMethods.py__ 
+Examples of user routines that are called by the system during data  analysis to expose the user to the acquired data. In this example the user code displays the voltages read from A7, A8, A9. 
+* __userGlobals.py__ 
+Example of some global user variables used by the user methods. 
 
 ---
-
 ## Getting Started
 
 Getting up and running with IOLab using Python should be straightforward. In this section I will assume you just removed your IOLab from the box and have done nothing else. I have tested the following procedure on Mac and Windows and I assume the Linux installation will be very similar to the Mac procedure, so if you are trying this on Linux please let me know how it goes.
@@ -90,8 +89,9 @@ __3. Installing PySerial:__ Open up a command-line interface (_Anaconda Prompt_ 
 
 __4. Run the example code:__ You are now ready to try it out. Plug in your Dongle and turn on your Remote. If you are running from a command line, _cd_ to one of the example folders and then type `python userExample.py` to run it. If you are using Anaconda's _Spyder_ application, open one of the _userExample.py_ files using the GUI and click the Run button.
 
+__5. Note for Linux users:__ I am a Linux novice (using Ubuntu) so any advice is appreciated. I have found the following: (a) In order to get access to the serial port I needed to issue the command _sudo usermod -a -G dialout_ ___username___. (b) The code in __guiExample__ has issues writing to a listBox widget under Linux, though it works fine under Windows and Mac OS. 
+
 ---
 
 ## License
 Use this code at your own risk in accordance with the Open Source BSD-3-Clause license. 
-
